@@ -1,0 +1,524 @@
+practice:
+  name: "Rose Medical Pavilion"
+  doctor: "Dr. Zach Rose MD"
+  phone: "(602) 892-7467"
+  email: "info@rosemedicalpavilion.com"
+  address: "4045 E Bell Rd, Suite 131, Phoenix, AZ 85032"
+  website: "https://rosemedicalpavilion.com"
+  ga4_id: "G-XXXXXXXXXX"
+  gsc_property: "https://rosemedicalpavilion.com"
+
+services:
+  - slug: pediatric-epilepsy-phoenix
+    name: "Pediatric Epilepsy"
+    short: "epilepsy"
+  - slug: pediatric-seizures-phoenix
+    name: "Pediatric Seizures"
+    short: "seizures"
+  - slug: developmental-delays-phoenix
+    name: "Developmental Delays"
+    short: "developmental delays"
+  - slug: pediatric-headaches-phoenix
+    name: "Pediatric Headaches"
+    short: "headaches"
+  - slug: cerebral-palsy-muscle-disease-phoenix
+    name: "Cerebral Palsy & Muscle Disease"
+    short: "cerebral palsy"
+  - slug: movement-disorders-phoenix
+    name: "Movement Disorders"
+    short: "movement disorders"
+  - slug: tic-disorders-phoenix
+    name: "Tic Disorders & Tourette Syndrome"
+    short: "tic disorders"
+  - slug: sleep-disorders-children-phoenix
+    name: "Sleep Disorders in Children"
+    short: "sleep disorders"
+  - slug: dizziness-vertigo-children-phoenix
+    name: "Dizziness & Vertigo"
+    short: "dizziness"
+  - slug: traumatic-brain-injury-phoenix
+    name: "Traumatic Brain Injury"
+    short: "brain injury"
+  - slug: pediatric-concussion-phoenix
+    name: "Pediatric Concussion"
+    short: "concussion"
+  - slug: nerve-injury-phoenix
+    name: "Nerve Injury"
+    short: "nerve injury"
+  - slug: insomnia-children-phoenix
+    name: "Insomnia in Children"
+    short: "insomnia"
+  - slug: syncope-loss-of-consciousness-phoenix
+    name: "Syncope & Loss of Consciousness"
+    short: "syncope"
+  - slug: visual-disturbances-children-phoenix
+    name: "Visual Disturbances"
+    short: "visual disturbances"
+  - slug: brain-mri-children-phoenix
+    name: "Pediatric Brain MRI"
+    short: "brain MRI"
+  - slug: pediatric-eeg-phoenix
+    name: "Pediatric EEG"
+    short: "EEG"
+
+cities:
+  primary:
+    - name: Phoenix
+      slug: phoenix
+      county: Maricopa
+      pop: 1608139
+      distance_miles: 0
+      neighbors: [Scottsdale, Tempe, Glendale, Chandler, Mesa]
+    - name: Scottsdale
+      slug: scottsdale
+      county: Maricopa
+      pop: 258069
+      distance_miles: 10
+      neighbors: [Phoenix, Paradise Valley, Fountain Hills, Tempe]
+    - name: Mesa
+      slug: mesa
+      county: Maricopa
+      pop: 504258
+      distance_miles: 15
+      neighbors: [Phoenix, Chandler, Tempe, Gilbert, Scottsdale]
+    - name: Chandler
+      slug: chandler
+      county: Maricopa
+      pop: 275987
+      distance_miles: 18
+      neighbors: [Phoenix, Mesa, Gilbert, Tempe]
+    - name: Tempe
+      slug: tempe
+      county: Maricopa
+      pop: 195805
+      distance_miles: 8
+      neighbors: [Phoenix, Mesa, Chandler, Scottsdale]
+    - name: Gilbert
+      slug: gilbert
+      county: Maricopa
+      pop: 267918
+      distance_miles: 20
+      neighbors: [Mesa, Chandler, Queen Creek, Tempe]
+    - name: Glendale
+      slug: glendale
+      county: Maricopa
+      pop: 250981
+      distance_miles: 10
+      neighbors: [Phoenix, Peoria, Surprise, Avondale]
+    - name: Peoria
+      slug: peoria
+      county: Maricopa
+      pop: 196835
+      distance_miles: 15
+      neighbors: [Glendale, Phoenix, Surprise, Sun City]
+    - name: Surprise
+      slug: surprise
+      county: Maricopa
+      pop: 148478
+      distance_miles: 28
+      neighbors: [Peoria, Glendale, El Mirage, Sun City West]
+    - name: Avondale
+      slug: avondale
+      county: Maricopa
+      pop: 92684
+      distance_miles: 16
+      neighbors: [Phoenix, Goodyear, Litchfield Park, Tolleson]
+    - name: Goodyear
+      slug: goodyear
+      county: Maricopa
+      pop: 103401
+      distance_miles: 22
+      neighbors: [Avondale, Litchfield Park, Buckeye, Tolleson]
+    - name: Buckeye
+      slug: buckeye
+      county: Maricopa
+      pop: 110000
+      distance_miles: 35
+      neighbors: [Goodyear, Avondale, Tonopah, Wickenburg]
+    - name: Queen Creek
+      slug: queen-creek
+      county: Maricopa
+      pop: 67000
+      distance_miles: 30
+      neighbors: [Gilbert, San Tan Valley, Chandler]
+    - name: Fountain Hills
+      slug: fountain-hills
+      county: Maricopa
+      pop: 25000
+      distance_miles: 22
+      neighbors: [Scottsdale, Rio Verde, Fort McDowell]
+    - name: Paradise Valley
+      slug: paradise-valley
+      county: Maricopa
+      pop: 14000
+      distance_miles: 8
+      neighbors: [Scottsdale, Phoenix]
+    - name: Litchfield Park
+      slug: litchfield-park
+      county: Maricopa
+      pop: 6000
+      distance_miles: 20
+      neighbors: [Goodyear, Avondale, Peoria]
+    - name: El Mirage
+      slug: el-mirage
+      county: Maricopa
+      pop: 35000
+      distance_miles: 22
+      neighbors: [Surprise, Youngtown, Sun City, Glendale]
+    - name: Tolleson
+      slug: tolleson
+      county: Maricopa
+      pop: 7258
+      distance_miles: 12
+      neighbors: [Phoenix, Avondale, Goodyear]
+    - name: Wickenburg
+      slug: wickenburg
+      county: Maricopa
+      pop: 7571
+      distance_miles: 55
+      neighbors: [Peoria, Surprise, Congress]
+    - name: Youngtown
+      slug: youngtown
+      county: Maricopa
+      pop: 6480
+      distance_miles: 20
+      neighbors: [El Mirage, Sun City, Glendale]
+    - name: Carefree
+      slug: carefree
+      county: Maricopa
+      pop: 3963
+      distance_miles: 30
+      neighbors: [Cave Creek, Scottsdale, Fountain Hills]
+    - name: Cave Creek
+      slug: cave-creek
+      county: Maricopa
+      pop: 5765
+      distance_miles: 28
+      neighbors: [Carefree, Scottsdale, Phoenix]
+    - name: Sun City
+      slug: sun-city
+      county: Maricopa
+      pop: 41446
+      distance_miles: 18
+      neighbors: [Peoria, Glendale, Youngtown, El Mirage]
+    - name: Sun City West
+      slug: sun-city-west
+      county: Maricopa
+      pop: 26344
+      distance_miles: 25
+      neighbors: [Surprise, Peoria, Sun City]
+    - name: Anthem
+      slug: anthem
+      county: Maricopa
+      pop: 23759
+      distance_miles: 32
+      neighbors: [Phoenix, Peoria, New River]
+    - name: Guadalupe
+      slug: guadalupe
+      county: Maricopa
+      pop: 5523
+      distance_miles: 8
+      neighbors: [Tempe, Phoenix, Chandler]
+    - name: Laveen
+      slug: laveen
+      county: Maricopa
+      pop: 35000
+      distance_miles: 10
+      neighbors: [Phoenix, Goodyear, Tolleson]
+    - name: Ahwatukee
+      slug: ahwatukee
+      county: Maricopa
+      pop: 78000
+      distance_miles: 15
+      neighbors: [Phoenix, Chandler, Tempe]
+    - name: Apache Junction
+      slug: apache-junction
+      county: Pinal
+      pop: 41137
+      distance_miles: 28
+      neighbors: [Mesa, Gold Canyon, Queen Creek]
+    - name: San Tan Valley
+      slug: san-tan-valley
+      county: Pinal
+      pop: 99000
+      distance_miles: 32
+      neighbors: [Gilbert, Queen Creek, Chandler]
+
+  secondary:
+    - name: Tucson
+      slug: tucson
+      county: Pima
+      pop: 543221
+      distance_miles: 110
+    - name: Oro Valley
+      slug: oro-valley
+      county: Pima
+      pop: 47070
+      distance_miles: 115
+    - name: Marana
+      slug: marana
+      county: Pima
+      pop: 50328
+      distance_miles: 112
+    - name: Sahuarita
+      slug: sahuarita
+      county: Pima
+      pop: 32673
+      distance_miles: 125
+    - name: Prescott
+      slug: prescott
+      county: Yavapai
+      pop: 45827
+      distance_miles: 100
+    - name: Prescott Valley
+      slug: prescott-valley
+      county: Yavapai
+      pop: 47892
+      distance_miles: 103
+    - name: Cottonwood
+      slug: cottonwood
+      county: Yavapai
+      pop: 12695
+      distance_miles: 115
+    - name: Camp Verde
+      slug: camp-verde
+      county: Yavapai
+      pop: 12026
+      distance_miles: 120
+    - name: Chino Valley
+      slug: chino-valley
+      county: Yavapai
+      pop: 11441
+      distance_miles: 108
+    - name: Sedona
+      slug: sedona
+      county: Yavapai
+      pop: 10031
+      distance_miles: 120
+    - name: Flagstaff
+      slug: flagstaff
+      county: Coconino
+      pop: 75038
+      distance_miles: 147
+    - name: Williams
+      slug: williams
+      county: Coconino
+      pop: 3023
+      distance_miles: 165
+    - name: Page
+      slug: page
+      county: Coconino
+      pop: 7745
+      distance_miles: 270
+    - name: Lake Havasu City
+      slug: lake-havasu-city
+      county: Mohave
+      pop: 53743
+      distance_miles: 200
+    - name: Kingman
+      slug: kingman
+      county: Mohave
+      pop: 32096
+      distance_miles: 195
+    - name: Bullhead City
+      slug: bullhead-city
+      county: Mohave
+      pop: 41123
+      distance_miles: 225
+    - name: Yuma
+      slug: yuma
+      county: Yuma
+      pop: 97001
+      distance_miles: 188
+    - name: San Luis
+      slug: san-luis
+      county: Yuma
+      pop: 35983
+      distance_miles: 200
+    - name: Somerton
+      slug: somerton
+      county: Yuma
+      pop: 16150
+      distance_miles: 195
+    - name: Casa Grande
+      slug: casa-grande
+      county: Pinal
+      pop: 55000
+      distance_miles: 65
+    - name: Maricopa
+      slug: maricopa
+      county: Pinal
+      pop: 58056
+      distance_miles: 50
+    - name: Coolidge
+      slug: coolidge
+      county: Pinal
+      pop: 13218
+      distance_miles: 75
+    - name: Florence
+      slug: florence
+      county: Pinal
+      pop: 32000
+      distance_miles: 65
+    - name: Eloy
+      slug: eloy
+      county: Pinal
+      pop: 18098
+      distance_miles: 85
+    - name: Superior
+      slug: superior
+      county: Pinal
+      pop: 2836
+      distance_miles: 60
+    - name: Sierra Vista
+      slug: sierra-vista
+      county: Cochise
+      pop: 43888
+      distance_miles: 185
+    - name: Douglas
+      slug: douglas
+      county: Cochise
+      pop: 17163
+      distance_miles: 220
+    - name: Bisbee
+      slug: bisbee
+      county: Cochise
+      pop: 5231
+      distance_miles: 210
+    - name: Benson
+      slug: benson
+      county: Cochise
+      pop: 4711
+      distance_miles: 170
+    - name: Willcox
+      slug: willcox
+      county: Cochise
+      pop: 3757
+      distance_miles: 185
+    - name: Show Low
+      slug: show-low
+      county: Navajo
+      pop: 11568
+      distance_miles: 175
+    - name: Winslow
+      slug: winslow
+      county: Navajo
+      pop: 9655
+      distance_miles: 160
+    - name: Holbrook
+      slug: holbrook
+      county: Navajo
+      pop: 5053
+      distance_miles: 195
+    - name: Pinetop-Lakeside
+      slug: pinetop-lakeside
+      county: Navajo
+      pop: 4282
+      distance_miles: 185
+    - name: Snowflake
+      slug: snowflake
+      county: Navajo
+      pop: 5746
+      distance_miles: 175
+    - name: Safford
+      slug: safford
+      county: Graham
+      pop: 10184
+      distance_miles: 165
+    - name: Thatcher
+      slug: thatcher
+      county: Graham
+      pop: 5038
+      distance_miles: 162
+    - name: Globe
+      slug: globe
+      county: Gila
+      pop: 7328
+      distance_miles: 90
+    - name: Payson
+      slug: payson
+      county: Gila
+      pop: 15694
+      distance_miles: 90
+    - name: Parker
+      slug: parker
+      county: La Paz
+      pop: 3083
+      distance_miles: 155
+    - name: Quartzsite
+      slug: quartzsite
+      county: La Paz
+      pop: 3677
+      distance_miles: 130
+    - name: Nogales
+      slug: nogales
+      county: Santa Cruz
+      pop: 20422
+      distance_miles: 175
+    - name: Clifton
+      slug: clifton
+      county: Greenlee
+      pop: 3311
+      distance_miles: 175
+
+blog_topics:
+  - title: "What Arizona Parents Need to Know About Childhood Seizures"
+    slug: childhood-seizures-arizona-guide
+    category: epilepsy
+    keywords: ["childhood seizures Arizona", "what to do when child has seizure", "pediatric seizure Phoenix"]
+  - title: "Febrile Seizures in Arizona: Does the Heat Make Them More Likely?"
+    slug: febrile-seizures-arizona-heat
+    category: epilepsy
+    keywords: ["febrile seizures Arizona heat", "fever seizure child Phoenix", "febrile convulsion summer Arizona"]
+  - title: "Developmental Delays: When Should You See a Neurologist?"
+    slug: developmental-delays-neurologist
+    category: development
+    keywords: ["developmental delays neurologist Phoenix", "child not meeting milestones Arizona", "when to see neurologist developmental delay"]
+  - title: "Pediatric Migraines: Why Children's Headaches Are Different"
+    slug: pediatric-migraines-different
+    category: headaches
+    keywords: ["pediatric migraines Phoenix", "children headaches neurologist Arizona", "child migraine treatment Phoenix"]
+  - title: "Tics and Tourette Syndrome in Children: A Parent's Guide"
+    slug: tics-tourette-children-guide
+    category: tics
+    keywords: ["tic disorder children Phoenix", "Tourette syndrome pediatric Arizona", "child tics neurologist Phoenix"]
+  - title: "Concussion in Kids: What Every Arizona Parent and Coach Should Know"
+    slug: pediatric-concussion-guide-arizona
+    category: concussion
+    keywords: ["pediatric concussion Phoenix", "child concussion symptoms Arizona", "youth sports concussion management"]
+  - title: "Sleep Disorders in Children: More Than Just Bedtime Struggles"
+    slug: sleep-disorders-children-arizona
+    category: sleep
+    keywords: ["sleep disorders children Phoenix", "child insomnia neurologist Arizona", "pediatric sleep problems Phoenix"]
+  - title: "Cerebral Palsy in Arizona: Resources, Treatment, and What to Expect"
+    slug: cerebral-palsy-arizona-guide
+    category: cerebral-palsy
+    keywords: ["cerebral palsy treatment Phoenix", "CP specialist Arizona", "cerebral palsy resources Phoenix"]
+  - title: "What Is a Pediatric EEG? Everything Arizona Families Need to Know"
+    slug: pediatric-eeg-guide-arizona
+    category: diagnostics
+    keywords: ["pediatric EEG Phoenix", "EEG for children Arizona", "what is EEG child nervous"]
+  - title: "Dizziness and Vertigo in Children: Causes and When to Worry"
+    slug: dizziness-vertigo-children-arizona
+    category: dizziness
+    keywords: ["dizziness vertigo children Phoenix", "child balance problems Arizona", "pediatric vertigo neurologist Phoenix"]
+  - title: "Movement Disorders in Children: Tremors, Dystonia, and More"
+    slug: movement-disorders-children-arizona
+    category: movement
+    keywords: ["movement disorders children Phoenix", "child tremors neurologist Arizona", "pediatric dystonia Phoenix"]
+  - title: "Syncope in Children: When Fainting Needs a Neurologist"
+    slug: syncope-children-when-to-worry
+    category: syncope
+    keywords: ["syncope children Phoenix", "child fainting neurologist Arizona", "loss of consciousness child Phoenix"]
+  - title: "Traumatic Brain Injury in Children: Recovery and Long-Term Care"
+    slug: traumatic-brain-injury-children-arizona
+    category: tbi
+    keywords: ["traumatic brain injury children Phoenix", "pediatric TBI Arizona", "child head injury neurologist Phoenix"]
+  - title: "Visual Disturbances in Children: Neurological Causes and Treatment"
+    slug: visual-disturbances-children-neurological
+    category: vision
+    keywords: ["visual disturbances children Phoenix", "child vision problems neurologist Arizona", "pediatric visual symptoms Phoenix"]
+  - title: "When to Get a Brain MRI for Your Child"
+    slug: when-get-brain-mri-child
+    category: diagnostics
+    keywords: ["brain MRI child Phoenix", "pediatric brain MRI Arizona", "when does child need MRI neurologist"]

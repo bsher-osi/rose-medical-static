@@ -1,0 +1,55 @@
+name: Weekly Blog Posts
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of posts to generate'
+        default: '2'
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install anthropic pyyaml
+
+      - name: Generate blog posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          COUNT="${{ github.event.inputs.count || '2' }}"
+          python seo/agents/blog_writer.py --count "$COUNT"
+
+      - name: Check for new posts
+        id: check
+        run: |
+          if git diff --quiet && git ls-files --others --exclude-standard | grep -q .; then
+            echo "new_posts=true" >> $GITHUB_OUTPUT
+          elif ! git diff --quiet; then
+            echo "new_posts=true" >> $GITHUB_OUTPUT
+          else
+            echo "new_posts=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.check.outputs.new_posts == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'content: add weekly blog posts'
+          title: 'Weekly Blog Posts — ${{ github.run_id }}'
+          body: 'Auto-generated blog posts from weekly-blog workflow.'
+          branch: 'auto/blog-${{ github.run_id }}'
+          base: main

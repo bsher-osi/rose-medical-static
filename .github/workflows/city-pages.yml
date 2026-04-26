@@ -1,0 +1,73 @@
+name: Generate City Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Service slug (leave blank for all)'
+        required: false
+      city:
+        description: 'City slug (leave blank for all)'
+        required: false
+      primary_only:
+        description: 'Primary cities only (true/false)'
+        default: 'false'
+      use_ai:
+        description: 'Use Claude AI for content (true/false)'
+        default: 'false'
+      force:
+        description: 'Overwrite existing pages (true/false)'
+        default: 'false'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install anthropic pyyaml
+
+      - name: Generate city pages
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          ARGS="--all"
+          if [ -n "${{ github.event.inputs.service }}" ]; then
+            ARGS="--service ${{ github.event.inputs.service }}"
+          fi
+          if [ -n "${{ github.event.inputs.city }}" ]; then
+            ARGS="$ARGS --city ${{ github.event.inputs.city }}"
+          else
+            ARGS="$ARGS --all-cities"
+          fi
+          if [ "${{ github.event.inputs.primary_only }}" = "true" ]; then
+            ARGS="$ARGS --primary-only"
+          fi
+          if [ "${{ github.event.inputs.use_ai }}" = "true" ]; then
+            ARGS="$ARGS --use-ai"
+          fi
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          python seo/agents/localize_city_pages.py $ARGS
+
+      - name: Update sitemap
+        run: python seo/agents/update_sitemap.py
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'seo: generate city landing pages'
+          title: 'City Pages — ${{ github.run_id }}'
+          body: 'Auto-generated city landing pages and updated sitemap.'
+          branch: 'auto/city-pages-${{ github.run_id }}'
+          base: main

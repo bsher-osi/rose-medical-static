@@ -1,3 +1,8 @@
 *.log
 .DS_Store
 Thumbs.db
+seo/credentials/
+seo/reports/
+__pycache__/
+*.pyc
+.env
