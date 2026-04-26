@@ -4,15 +4,15 @@
 <?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap>
-		<loc><![CDATA[/post-sitemap.xml]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/post-sitemap.xml]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:43:32+00:00]]></lastmod>
 	</sitemap>
 	<sitemap>
-		<loc><![CDATA[/page-sitemap.xml]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/page-sitemap.xml]]></loc>
 		<lastmod><![CDATA[2026-04-07T04:28:17+00:00]]></lastmod>
 	</sitemap>
 	<sitemap>
-		<loc><![CDATA[/category-sitemap.xml]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/category-sitemap.xml]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:43:32+00:00]]></lastmod>
 	</sitemap>
 </sitemapindex>

@@ -8,7 +8,7 @@
 	xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
 >
 	<url>
-		<loc><![CDATA[/tics/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/tics/]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:43:32+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -18,7 +18,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/generalized-seizure-dos-donts/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/generalized-seizure-dos-donts/]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:42:30+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -28,7 +28,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/febrile-seizures-2/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/febrile-seizures-2/]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:40:29+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -38,7 +38,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/febrile-seizures/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/febrile-seizures/]]></loc>
 		<lastmod><![CDATA[2026-03-23T10:39:20+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -48,7 +48,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/psychogenic-non-epileptic-seizure/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/psychogenic-non-epileptic-seizure/]]></loc>
 		<lastmod><![CDATA[2025-08-06T12:49:54+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -58,7 +58,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/generalized-seizure-dos-donts-2/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/generalized-seizure-dos-donts-2/]]></loc>
 		<lastmod><![CDATA[2025-07-17T12:48:21+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
@@ -68,7 +68,7 @@
 		</image:image>
 	</url>
 	<url>
-		<loc><![CDATA[/febrile-seizures-2-2/]]></loc>
+		<loc><![CDATA[https://rosemedicalpavilion.com/febrile-seizures-2-2/]]></loc>
 		<lastmod><![CDATA[2023-11-28T05:04:41+00:00]]></lastmod>
 		<changefreq><![CDATA[weekly]]></changefreq>
 		<priority><![CDATA[0.7]]></priority>
