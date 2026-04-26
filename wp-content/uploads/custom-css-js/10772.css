@@ -1,0 +1,30 @@
+<!-- start Simple Custom CSS and JS -->
+<style type="text/css">
+/* Add your CSS code here.
+
+For example:
+.example {
+    color: red;
+}
+
+For brushing up on your CSS knowledge, check out http://www.w3schools.com/css/css_syntax.asp
+
+End of comment */ 
+
+.mkdf-side-menu-button-opener {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    visibility: collapse;
+    width: 0px;
+}
+
+.mkdf-search-opener .mkdf-search-opener-wrapper>* {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: inherit;
+    visibility: collapse;
+    width: 0px;
+}</style>
+<!-- end Simple Custom CSS and JS -->

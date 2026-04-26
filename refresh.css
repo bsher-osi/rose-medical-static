@@ -1,0 +1,601 @@
+/* =====================================================
+   Rose Medical Pavilion — Refresh Stylesheet
+   Injected as an override layer on top of theme CSS
+   ===================================================== */
+
+/* --- 1. CSS Variables (brand tokens) --- */
+:root {
+  --rose-blue:        #0062b8;
+  --rose-blue-dark:   #004d93;
+  --rose-blue-light:  #e8f1fb;
+  --rose-coral:       #e07560;
+  --rose-coral-dark:  #c9644f;
+  --rose-text:        #2c2c2c;
+  --rose-muted:       #5a5a6e;
+  --rose-bg:          #f7f8fa;
+  --rose-white:       #ffffff;
+  --rose-border:      #e2e6ea;
+  --rose-radius:      10px;
+  --rose-radius-lg:   16px;
+  --rose-shadow:      0 4px 20px rgba(0,0,0,0.08);
+  --rose-shadow-hover:0 8px 32px rgba(0,98,184,0.14);
+  --rose-transition:  all 0.22s ease;
+}
+
+/* --- 2. Typography upgrade --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', 'Poppins', sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: var(--rose-text) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.mkdf-st-title,
+.mkdf-iwt-title,
+.mkdf-testimonial-author,
+.mkdf-btn-text {
+  font-family: 'Poppins', sans-serif !important;
+  letter-spacing: -0.01em;
+}
+
+h2, .mkdf-st-title { font-size: clamp(1.6rem, 3vw, 2.2rem) !important; font-weight: 600 !important; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem) !important; }
+h4 { font-size: clamp(1rem, 2vw, 1.15rem) !important; }
+
+p { color: var(--rose-muted) !important; line-height: 1.75 !important; }
+
+/* --- 3. Global colour refresh --- */
+/* Replace old blue backgrounds (section CTAs etc) — but NOT top-bar or header */
+[style*="background-color:#005da8"]:not(.mkdf-top-bar):not(.mkdf-page-header),
+[style*="background-color: #005da8"]:not(.mkdf-top-bar):not(.mkdf-page-header) {
+  background-color: var(--rose-blue) !important;
+}
+
+[style*="color:#005da8"],
+[style*="color: #005da8"],
+.mkdf-icon-element[style*="#005da8"] {
+  color: var(--rose-blue) !important;
+}
+
+/* Replace old coral button #de7f68 → new coral */
+.mkdf-btn.mkdf-btn-simple .mkdf-btn-text,
+[style*="background-color:#de7f68"],
+[style*="background-color: #de7f68"],
+.rs-layer.rev-btn[style*="#de7f68"] {
+  background-color: var(--rose-coral) !important;
+  transition: var(--rose-transition) !important;
+}
+
+.mkdf-btn.mkdf-btn-simple .mkdf-btn-text:hover {
+  background-color: var(--rose-coral-dark) !important;
+}
+
+/* Section backgrounds */
+[style*="background-color:#fafafa"],
+[style*="background-color: #fafafa"] {
+  background-color: var(--rose-bg) !important;
+}
+
+/* --- 4. Header --- */
+.mkdf-page-header {
+  z-index: 9999 !important;
+  background-color: #ffffff !important;
+}
+
+/* Logo — constrain the square 1201×1200 image to header height */
+.mkdf-logo-wrapper img.mkdf-normal-logo,
+.mkdf-logo-wrapper img.mkdf-dark-logo {
+  width: auto !important;
+  height: 56px !important;
+  max-width: 160px !important;
+  object-fit: contain !important;
+}
+
+/* Top bar — keep theme default (white/light), just tighten spacing */
+.mkdf-top-bar {
+  border-bottom: 1px solid var(--rose-border) !important;
+}
+
+.mkdf-top-bar .mkdf-info-icon-title-text,
+.mkdf-top-bar .textwidget span {
+  color: var(--rose-muted) !important;
+  font-size: 13px !important;
+}
+
+.mkdf-top-bar .mkdf-icon-element {
+  color: var(--rose-blue) !important;
+}
+
+/* Active nav item highlight */
+.mkdf-main-menu > ul > li.mkdf-active-item > a span.item_text,
+.mkdf-main-menu > ul > li.current-menu-ancestor > a span.item_text,
+.mkdf-main-menu > ul > li.current-menu-item > a span.item_text {
+  color: var(--rose-coral) !important;
+}
+
+/* Sticky header shadow on scroll */
+.mkdf-sticky-header {
+  box-shadow: 0 2px 16px rgba(0,0,0,0.12) !important;
+}
+
+/* --- 5. CTA buttons --- */
+.mkdf-btn.mkdf-btn-solid,
+.mkdf-btn.mkdf-btn-medium.mkdf-btn-solid {
+  border-radius: var(--rose-radius) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  transition: var(--rose-transition) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+}
+
+.mkdf-btn.mkdf-btn-solid:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+}
+
+.mkdf-btn.mkdf-btn-solid-light {
+  background-color: var(--rose-white) !important;
+  color: var(--rose-blue) !important;
+  border: 2px solid var(--rose-white) !important;
+}
+
+.mkdf-btn.mkdf-btn-solid-light:hover {
+  background-color: transparent !important;
+  color: var(--rose-white) !important;
+}
+
+/* --- 6. Hero section (static CSS replacement) --- */
+/* Hide the broken RevSlider and show our CSS hero */
+.wpb_revslider_element,
+#rev_slider_3_1_wrapper,
+rs-module-wrap {
+  display: none !important;
+}
+
+.rose-hero {
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  background-image: url('/wp-content/uploads/2023/11/AdobeStock_639395778-scaled.jpeg');
+  background-size: cover;
+  background-position: center 30%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 60px 80px;
+  box-sizing: border-box;
+}
+
+.rose-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255,255,255,0.92) 0%,
+    rgba(255,255,255,0.82) 35%,
+    rgba(255,255,255,0.1) 70%,
+    transparent 100%
+  );
+}
+
+.rose-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 460px;
+  text-align: right;
+}
+
+.rose-hero-content h1 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: clamp(1.8rem, 4vw, 2.8rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: var(--rose-text) !important;
+  margin-bottom: 8px !important;
+}
+
+.rose-hero-content h2 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: clamp(1rem, 2vw, 1.3rem) !important;
+  font-weight: 300 !important;
+  color: var(--rose-muted) !important;
+  margin-bottom: 28px !important;
+  border: none !important;
+}
+
+.rose-hero-btn {
+  display: inline-block;
+  background-color: var(--rose-coral) !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  border-radius: var(--rose-radius);
+  box-shadow: 0 4px 14px rgba(224,117,96,0.35);
+  transition: var(--rose-transition);
+}
+
+.rose-hero-btn:hover {
+  background-color: var(--rose-coral-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(224,117,96,0.45);
+  color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .rose-hero {
+    justify-content: center;
+    padding: 40px 24px;
+    min-height: 400px;
+    background-position: 60% center;
+  }
+  .rose-hero::before {
+    background: rgba(255,255,255,0.82);
+  }
+  .rose-hero-content {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+/* --- 7. Conditions grid — card hover effect --- */
+.mkdf-image-with-text-holder {
+  border-radius: var(--rose-radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--rose-shadow) !important;
+  transition: var(--rose-transition) !important;
+  background: var(--rose-white) !important;
+}
+
+.mkdf-image-with-text-holder:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--rose-shadow-hover) !important;
+}
+
+.mkdf-iwt-image img {
+  transition: transform 0.4s ease !important;
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.mkdf-image-with-text-holder:hover .mkdf-iwt-image img {
+  transform: scale(1.04) !important;
+}
+
+.mkdf-iwt-text-holder {
+  padding: 16px 20px 20px !important;
+}
+
+.mkdf-iwt-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: var(--rose-blue) !important;
+  margin: 0 !important;
+}
+
+/* --- 8. Testimonials section --- */
+.mkdf-testimonials-holder {
+  background: none !important;
+}
+
+.mkdf-testimonial-text-inner {
+  background: var(--rose-white) !important;
+  border-radius: var(--rose-radius-lg) !important;
+  padding: 32px !important;
+  box-shadow: var(--rose-shadow) !important;
+  border: 1px solid var(--rose-border) !important;
+}
+
+.mkdf-testimonial-author {
+  color: var(--rose-blue) !important;
+  font-weight: 600 !important;
+}
+
+/* --- Fix white gap below footer on conditions pages --- */
+html {
+  background-color: #1a1c1c !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.mkdf-content-inner,
+.mkdf-content,
+.mkdf-wrapper-inner,
+.mkdf-wrapper {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Remove Cloudflare iframe spacing */
+body > iframe[style*="position:absolute"] {
+  display: none !important;
+}
+
+/* Back-to-top button — hide it, children cause phantom scroll height */
+#mkdf-back-to-top {
+  display: none !important;
+}
+
+/* --- 9. Footer — match original About Us style (#242626 bg, blue icons) --- */
+.mkdf-page-footer,
+footer.mkdf-page-footer {
+  background-color: #242626 !important;
+}
+
+.mkdf-footer-top-holder,
+.mkdf-page-footer .mkdf-footer-top-holder,
+.mkdf-footer-top-inner,
+.mkdf-page-footer .mkdf-footer-top-inner {
+  background-color: #242626 !important;
+  padding: 48px 0 !important;
+}
+
+.mkdf-footer-bottom-holder,
+.mkdf-page-footer .mkdf-footer-bottom-holder {
+  background-color: #1a1c1c !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+  padding: 20px 0 !important;
+}
+
+/* Keep original blue icons from inline styles */
+.mkdf-page-footer .mkdf-icon-element {
+  font-size: 40px !important;
+}
+
+/* Widget spacing — consistent across all page types */
+.mkdf-page-footer .widget_block,
+.mkdf-page-footer .widget {
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+.mkdf-page-footer .mkdf-footer-column-1,
+.mkdf-page-footer .mkdf-footer-column-2,
+.mkdf-page-footer .mkdf-footer-column-3 {
+  padding: 0 20px !important;
+}
+
+/* Typography — lock down every element to match About Us exactly */
+
+/* Section labels: "Call", "Location", "Request an appointment" */
+.mkdf-page-footer h4,
+.mkdf-page-footer h4.wp-block-heading,
+.mkdf-page-footer .wp-block-heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  color: #ffffff !important;
+  margin: 0 0 4px !important;
+}
+
+.mkdf-page-footer h4 strong,
+.mkdf-page-footer .wp-block-heading strong {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+
+/* Sub-text: phone number, address, email — the <class> element */
+.mkdf-page-footer .has-small-font-size,
+.mkdf-page-footer class,
+.mkdf-page-footer h4 class {
+  display: block !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 400 !important;
+  color: rgba(255,255,255,0.78) !important;
+  line-height: 1.6 !important;
+}
+
+/* Fax label */
+.mkdf-page-footer .widget_text .textwidget,
+.mkdf-page-footer .widget_text p {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.88rem !important;
+  color: rgba(255,255,255,0.78) !important;
+  line-height: 1.6 !important;
+}
+
+/* Button text */
+.mkdf-page-footer .wp-block-button__link {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+}
+
+/* All footer links */
+.mkdf-page-footer a {
+  color: rgba(255,255,255,0.85) !important;
+  text-decoration: none !important;
+}
+
+.mkdf-page-footer a:hover {
+  opacity: 0.8;
+}
+
+/* Copyright bar */
+.mkdf-footer-bottom-holder,
+.mkdf-footer-bottom-holder a,
+.mkdf-footer-bottom-holder .textwidget,
+.mkdf-footer-bottom-holder p {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.82rem !important;
+  color: rgba(255,255,255,0.55) !important;
+}
+
+/* Strip any leftover "Powered by" / plugin text */
+.mkdf-footer-bottom-holder .widget_text a[href*="mikado"],
+.mkdf-footer-bottom-holder .widget_text a[href*="qodeinteractive"],
+.mkdf-footer-bottom-holder .widget_text a[href*="wordpress.org"] {
+  display: none !important;
+}
+
+/* --- 10. Custom rose-footer --- */
+.rose-footer {
+  background-color: #242626;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+}
+
+.rose-footer-inner {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 48px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.rose-footer-col {
+  flex: 1;
+  min-width: 200px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rose-footer-icon {
+  font-size: 40px;
+  color: var(--rose-blue);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.rose-footer-col h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  line-height: 1.5;
+}
+
+.rose-footer-col p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.rose-footer-btn {
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: var(--rose-radius);
+  margin-top: 8px;
+  transition: var(--rose-transition);
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.rose-footer-btn-coral {
+  background-color: var(--rose-coral);
+  color: #ffffff;
+}
+
+.rose-footer-btn-coral:hover {
+  background-color: var(--rose-coral-dark);
+  color: #ffffff;
+  opacity: 1;
+}
+
+.rose-footer-btn-blue {
+  background-color: var(--rose-blue);
+  color: #ffffff;
+  margin-top: 8px;
+}
+
+.rose-footer-btn-blue:hover {
+  background-color: var(--rose-blue-dark);
+  color: #ffffff;
+  opacity: 1;
+}
+
+.rose-footer-bottom {
+  background-color: #1a1c1c;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 20px 40px;
+  text-align: center;
+}
+
+.rose-footer-bottom p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .rose-footer-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 36px 24px;
+  }
+  .rose-footer-col {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* --- 11. Misc polish --- */
+
+/* Section headings underline accent */
+.mkdf-st-title {
+  position: relative;
+  display: inline-block;
+}
+.mkdf-st-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--rose-coral);
+  border-radius: 2px;
+  margin: 10px auto 0;
+}
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Focus ring for accessibility */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--rose-coral);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Remove default WP admin bar space if present */
+#wpadminbar { display: none !important; }
+html { margin-top: 0 !important; }

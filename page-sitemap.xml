@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This sitemap was dynamically generated on April 26, 2026 at 12:35 am by All in One SEO Pro v4.9.6.2 - the original SEO plugin for WordPress. -->
+
+<?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
+<urlset
+	xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+	<url>
+		<loc><![CDATA[/]]></loc>
+		<lastmod><![CDATA[2026-04-07T04:15:01+00:00]]></lastmod>
+		<changefreq><![CDATA[always]]></changefreq>
+		<priority><![CDATA[1]]></priority>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/epilepsy-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/migraine-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/childneuro-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/healthychildren-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/Cerebral-Palsy-Foundation2-2.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/ninds-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/pub-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/mychild-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/cdc-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/National-Organization-for-Rare-Disorders-NORD-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_284928349-1.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_80235139-1.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_536256155-3.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_536256155-2.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_546285298-1.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/12/AdobeStock_479873760-1.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_614753293.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_622445982.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_620054485.jpeg]]>			</image:loc>
+		</image:image>
+	</url>
+	<url>
+		<loc><![CDATA[/pediatric-concussion-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T04:28:17+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/careers/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:20:59+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/about-us/announcements/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:20:40+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/pediatric-epilepsy-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:20:27+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/pediatric-seizures-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:20:17+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/developmental-delays-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:20:05+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/pediatric-headaches-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:19:46+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/cerebral-palsy-muscle-disease-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:19:28+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/tourette-syndrome-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:19:09+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/movement-disorders-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:18:56+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/tic-disorders-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:17:26+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/syncope-loss-of-consciousness-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:16:56+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/sleep-disorders-children-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:39+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/insomnia-children-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:09+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/dizziness-vertigo-children-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:09+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/visual-disturbances-children-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:09+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/nerve-injury-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:09+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/traumatic-brain-injury-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-07T03:15:08+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/pediatric-eeg-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-03T22:37:42+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/brain-mri-children-phoenix/]]></loc>
+		<lastmod><![CDATA[2026-04-03T22:37:05+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/about-us/]]></loc>
+		<lastmod><![CDATA[2026-04-03T20:42:18+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/schedule-online/]]></loc>
+		<lastmod><![CDATA[2025-03-21T13:32:06+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/contact-us/]]></loc>
+		<lastmod><![CDATA[2024-02-03T13:16:35+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/refer-a-patient/]]></loc>
+		<lastmod><![CDATA[2023-12-24T15:40:14+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+	<url>
+		<loc><![CDATA[/blogs/]]></loc>
+		<lastmod><![CDATA[2023-12-23T21:10:22+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_614753293.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_622445982.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2023/11/AdobeStock_620054485.jpeg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2025/06/Austin.jpg]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2025/07/pots-1.png]]>			</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>
+				<![CDATA[/wp-content/uploads/2025/08/seizure.png]]>			</image:loc>
+		</image:image>
+	</url>
+	<url>
+		<loc><![CDATA[/blog/]]></loc>
+		<lastmod><![CDATA[2023-11-28T04:51:13+00:00]]></lastmod>
+		<changefreq><![CDATA[weekly]]></changefreq>
+		<priority><![CDATA[0.7]]></priority>
+	</url>
+</urlset>

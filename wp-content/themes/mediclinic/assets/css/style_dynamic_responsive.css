@@ -1,0 +1,26 @@
+@media only screen and (max-width: 1024px){
+/* generated in /nas/content/live/rosemedicalpav/wp-content/themes/mediclinic/assets/custom-styles/general-custom-styles-responsive.php mediclinic_mikado_content_responsive_styles function */
+.mkdf-content .mkdf-content-inner > .mkdf-container > .mkdf-container-inner, .mkdf-content .mkdf-content-inner > .mkdf-full-width > .mkdf-full-width-inner { padding-top: 80px!important;}
+
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px){
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px){
+}
+
+@media only screen and (max-width: 480px){
+/* generated in /nas/content/live/rosemedicalpav/wp-content/themes/mediclinic/assets/custom-styles/general-custom-styles-responsive.php mediclinic_mikado_h1_responsive_styles2 function */
+h1 { font-size: 40px;line-height: 40px;}
+
+/* generated in /nas/content/live/rosemedicalpav/wp-content/themes/mediclinic/assets/custom-styles/general-custom-styles-responsive.php mediclinic_mikado_h2_responsive_styles2 function */
+h2 { font-size: 35px;line-height: 39px;}
+
+/* generated in /nas/content/live/rosemedicalpav/wp-content/themes/mediclinic/assets/custom-styles/general-custom-styles-responsive.php mediclinic_mikado_h3_responsive_styles2 function */
+h3 { font-size: 20px;}
+
+/* generated in /nas/content/live/rosemedicalpav/wp-content/themes/mediclinic/assets/custom-styles/general-custom-styles-responsive.php mediclinic_mikado_h4_responsive_styles2 function */
+h4 { font-size: 17px;line-height: 30px;}
+
+}

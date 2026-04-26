@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Title responsive styles - begin
+   ========================================================================== */
+/* Button mixins - start */
+/* Button mixins - end */
+/* ==========================================================================
+   Title responsive style - begin
+   ========================================================================== */
+@media only screen and (max-width: 1024px) {
+  .mkdf-title.mkdf-standard-type .mkdf-breadcrumbs-holder {
+    margin-top: 0;
+  }
+  .mkdf-title.mkdf-has-background {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  .mkdf-title.mkdf-title-image-not-responsive .mkdf-title-image {
+    display: block;
+  }
+  .mkdf-title .mkdf-title-holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+  .mkdf-title .mkdf-title-holder .mkdf-container {
+    display: block;
+    height: 100%;
+  }
+  .mkdf-title .mkdf-title-holder .mkdf-container-inner {
+    display: table;
+    height: 100%;
+  }
+  .mkdf-title .mkdf-title-holder .mkdf-title-subtitle-holder {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    padding: 0 !important;
+  }
+  .mkdf-title .mkdf-title-holder .mkdf-title-subtitle {
+    padding: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .mkdf-title.mkdf-standard-type .mkdf-breadcrumbs-holder {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Title responsive style - end
+   ========================================================================== */
+/* ==========================================================================
+   Title responsive styles - end
+   ========================================================================== */
+
+/*# sourceMappingURL=../css/title-map-responsive.css.map */

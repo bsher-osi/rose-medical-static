@@ -1,0 +1,1 @@
+import{u as o,i as n}from"./app-core.ae890a3f.js";const e=()=>{let t=o().currentPost.postStatus;return n()&&(t=window.wp.data.select("core/editor").getCurrentPostAttribute("status")),t};export{e as g};

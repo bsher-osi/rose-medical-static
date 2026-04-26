@@ -1,0 +1,117 @@
+.mkdf-welcome-page {
+  max-width: 1020px;
+}
+
+.mkdf-welcome-page img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-heading {
+  margin: 0 0 18px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-heading .mkdf-welcome-page-logo {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 15px;
+  width: 62px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-heading .mkdf-welcome-page-title {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-text {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #555d66;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content {
+  margin: 55px -15px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-screenshot {
+  max-width: 610px;
+  padding: 0 15px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder {
+  margin: 0 15px;
+  background-color: #fff;
+  padding: 30px 37px 30px;
+  max-width: 380px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder .mkdf-welcome-page-install-core {
+  margin-bottom: 65px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder p {
+  font-size: 17px;
+  line-height: 23px;
+  font-weight: 400;
+  color: #23282d;
+  margin: 0 0 27px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder ul {
+  margin: 0 0 0;
+  padding: 0;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder ul li {
+  font-size: 15px;
+  color: #3675ae;
+  margin-bottom: 20px;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder ul li:last-child {
+  margin-bottom: 0;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder h3 {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-install-button {
+  display: block;
+  padding: 12px 0;
+  background-color: #3596ee;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1em;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 0 0 #246eae;
+          box-shadow: 0 2px 0 0 #246eae;
+  text-decoration: none;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .mkdf-welcome-page .mkdf-welcome-page-content {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+  }
+  .mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-screenshot {
+    padding: 0;
+  }
+  .mkdf-welcome-page .mkdf-welcome-page-content .mkdf-welcome-page-links-holder {
+    max-width: 610px;
+    margin: 0 0 50px;
+  }
+}
