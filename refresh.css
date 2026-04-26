@@ -286,7 +286,14 @@ rs-module-wrap {
 
 /* --- 8. Testimonials section --- */
 .mkdf-testimonials-holder {
-  background: none !important;
+  background: transparent !important;
+}
+
+/* Ensure the section wrapper background image shows */
+.mkdf-row-grid-section-wrapper[style*="background-image"] {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
 .mkdf-testimonial-text-inner {
