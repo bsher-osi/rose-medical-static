@@ -590,30 +590,39 @@ footer.mkdf-page-footer {
   width: 100%;
 }
 
-/* Large quote text inside parallax banner */
-.mkdf-parallax-row-holder .mkdf-iwt-title {
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem) !important;
-  font-weight: 300 !important;
-  color: #ffffff !important;
+/* Override table-cell layout from theme — make it a centered block */
+.mkdf-parallax-row-holder .mkdf-iwt.mkdf-iwt-icon-left,
+.mkdf-parallax-row-holder .mkdf-iwt {
+  display: block !important;
+  width: 100% !important;
   text-align: center !important;
-  line-height: 1.45 !important;
-  max-width: 860px;
-  margin: 0 auto !important;
 }
 
-.mkdf-parallax-row-holder .mkdf-iwt-content {
-  text-align: center;
-  width: 100%;
-  padding: 60px 40px;
-}
-
+.mkdf-parallax-row-holder .mkdf-iwt.mkdf-iwt-icon-left .mkdf-iwt-icon,
 .mkdf-parallax-row-holder .mkdf-iwt-icon {
   display: none !important;
 }
 
-.mkdf-parallax-row-holder .mkdf-iwt {
+.mkdf-parallax-row-holder .mkdf-iwt.mkdf-iwt-icon-left .mkdf-iwt-content,
+.mkdf-parallax-row-holder .mkdf-iwt-content {
   display: block !important;
-  width: 100%;
+  width: 100% !important;
+  padding: 60px 10% !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Large quote text */
+.mkdf-parallax-row-holder .mkdf-iwt-title,
+.mkdf-parallax-row-holder .mkdf-iwt.mkdf-iwt-icon-left .mkdf-iwt-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+  font-weight: 300 !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  line-height: 1.5 !important;
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  display: block !important;
 }
 
 /* --- 12. Testimonials — static carousel fallback (Owl not loaded) --- */
@@ -631,15 +640,17 @@ footer.mkdf-page-footer {
   padding: 40px 20px 60px;
 }
 
-/* Hide all testimonial items by default */
+/* Hide ALL items by default — JS shows .rose-active */
+/* Use max-height animation instead of display so transition works */
 .mkdf-owl-testimonials .mkdf-testimonial-content {
-  display: none;
-  animation: fadeInTes 0.5s ease;
+  display: none !important;
+  visibility: hidden !important;
 }
 
-/* Show only the active one */
 .mkdf-owl-testimonials .mkdf-testimonial-content.rose-active {
-  display: block;
+  display: block !important;
+  visibility: visible !important;
+  animation: fadeInTes 0.5s ease;
 }
 
 @keyframes fadeInTes {

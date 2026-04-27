@@ -1791,16 +1791,17 @@ window.addEventListener('load', function(){
 });
 </script>
 <script>
-// Stub $.fn.owlCarousel before modules.min.js runs so it can't take over
-// the testimonials container. We run our own carousel instead.
+// Stub $.fn.owlCarousel so modules.min.js can't take over the testimonials.
 (function stubOwl(){
   function applyStub(){
     if(window.jQuery){
       jQuery.fn.owlCarousel = function(){ return this; };
     }
   }
+  // Run now (jQuery already loaded above), on DOMContentLoaded, and on load
   applyStub();
   document.addEventListener('DOMContentLoaded', applyStub);
+  window.addEventListener('load', applyStub);
 })();
 
 function roseFixHomepage(){
