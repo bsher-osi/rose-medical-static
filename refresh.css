@@ -576,7 +576,168 @@ footer.mkdf-page-footer {
   }
 }
 
-/* --- 11. Misc polish --- */
+/* --- 11. Parallax section — set background from data attribute via JS (see index inline script) --- */
+.mkdf-parallax-row-holder {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  min-height: 300px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.mkdf-parallax-row-holder .mkdf-row-grid-section {
+  width: 100%;
+}
+
+/* Large quote text inside parallax banner */
+.mkdf-parallax-row-holder .mkdf-iwt-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+  font-weight: 300 !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  line-height: 1.45 !important;
+  max-width: 860px;
+  margin: 0 auto !important;
+}
+
+.mkdf-parallax-row-holder .mkdf-iwt-content {
+  text-align: center;
+  width: 100%;
+  padding: 60px 40px;
+}
+
+.mkdf-parallax-row-holder .mkdf-iwt-icon {
+  display: none !important;
+}
+
+.mkdf-parallax-row-holder .mkdf-iwt {
+  display: block !important;
+  width: 100%;
+}
+
+/* --- 12. Testimonials — static carousel fallback (Owl not loaded) --- */
+
+/* Hide the image nav thumbnails (empty in static export) */
+.mkdf-tes-image-nav {
+  display: none !important;
+}
+
+/* Container */
+.mkdf-owl-testimonials {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  padding: 40px 20px 60px;
+}
+
+/* Hide all testimonial items by default */
+.mkdf-owl-testimonials .mkdf-testimonial-content {
+  display: none;
+  animation: fadeInTes 0.5s ease;
+}
+
+/* Show only the active one */
+.mkdf-owl-testimonials .mkdf-testimonial-content.rose-active {
+  display: block;
+}
+
+@keyframes fadeInTes {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Testimonial card */
+.mkdf-testimonial-text-inner.mkdf-grid {
+  background: rgba(255,255,255,0.97) !important;
+  border-radius: 16px !important;
+  padding: 36px 40px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18) !important;
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.mkdf-testimonial-text {
+  font-size: 1.1rem !important;
+  font-style: italic !important;
+  color: #2c2c2c !important;
+  line-height: 1.8 !important;
+  margin-bottom: 20px !important;
+}
+
+.mkdf-testimonial-author-text {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: var(--rose-blue) !important;
+  margin: 0 !important;
+}
+
+.mkdf-testimonial-job-title {
+  font-size: 0.85rem !important;
+  color: var(--rose-muted) !important;
+  margin: 2px 0 0 !important;
+  font-weight: 400 !important;
+}
+
+.mkdf-separator-quote {
+  color: var(--rose-coral) !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 16px !important;
+  display: block !important;
+}
+
+/* Dot pagination */
+.rose-tes-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.rose-tes-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.rose-tes-dot.active {
+  background: #ffffff;
+}
+
+/* Nav arrows */
+.mkdf-tes-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.mkdf-tes-nav-prev,
+.mkdf-tes-nav-next {
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  font-size: 1.5rem;
+  user-select: none;
+  padding: 4px 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mkdf-tes-nav-prev:hover,
+.mkdf-tes-nav-next:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* --- 13. Misc polish --- */
 
 /* Section headings underline accent */
 .mkdf-st-title {
