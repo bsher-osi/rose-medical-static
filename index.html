@@ -1791,55 +1791,98 @@ window.addEventListener('load', function(){
 });
 </script>
 <script>
-// Fix parallax sections: set background-image from data attribute
-document.querySelectorAll('.mkdf-parallax-row-holder').forEach(function(el){
-  var img = el.getAttribute('data-parallax-bg-image');
-  if(img) el.style.setProperty('background-image','url('+img+')','important');
-});
+// Stub $.fn.owlCarousel before modules.min.js runs so it can't take over
+// the testimonials container. We run our own carousel instead.
+(function stubOwl(){
+  function applyStub(){
+    if(window.jQuery){
+      jQuery.fn.owlCarousel = function(){ return this; };
+    }
+  }
+  applyStub();
+  document.addEventListener('DOMContentLoaded', applyStub);
+})();
 
-// Testimonials static carousel
-(function(){
-  var items = document.querySelectorAll('.mkdf-owl-testimonials .mkdf-testimonial-content');
+function roseFixHomepage(){
+  // --- Parallax banner ---
+  document.querySelectorAll('.mkdf-parallax-row-holder').forEach(function(el){
+    var img = el.getAttribute('data-parallax-bg-image');
+    if(img){
+      el.style.setProperty('background-image','url('+img+')','important');
+      el.style.setProperty('background-size','cover','important');
+      el.style.setProperty('background-position','center center','important');
+    }
+    // Remove any height:0 or min-height:0 the WP parallax JS may have set
+    el.style.removeProperty('height');
+    el.style.setProperty('min-height','300px','important');
+  });
+
+  // --- Testimonials static carousel ---
+  var owl = document.querySelector('.mkdf-owl-testimonials');
+  if(!owl) return;
+
+  // Remove any .owl-* wrapper divs the carousel may have inserted,
+  // keeping only .mkdf-testimonial-content items
+  var items = Array.prototype.slice.call(
+    owl.querySelectorAll('.mkdf-testimonial-content')
+  );
   if(!items.length) return;
+
+  // If Owl ran and wrapped items in .owl-item, unwrap them back
+  owl.querySelectorAll('.owl-stage-outer, .owl-stage, .owl-item').forEach(function(w){
+    while(w.firstChild) w.parentNode.insertBefore(w.firstChild, w);
+    w.parentNode.removeChild(w);
+  });
+
+  // Remove any inline display styles Owl set
+  items.forEach(function(el){ el.style.removeProperty('display'); });
+
+  // Bail if already initialised (guard against double-call)
+  if(owl.dataset.roseCarousel) return;
+  owl.dataset.roseCarousel = '1';
+
   var current = 0;
 
-  // Build dots container
-  var dotsWrap = document.createElement('div');
-  dotsWrap.className = 'rose-tes-dots';
-  items.forEach(function(_,i){
-    var d = document.createElement('button');
-    d.className = 'rose-tes-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Testimonial '+(i+1));
-    d.addEventListener('click', function(){ goTo(i); });
-    dotsWrap.appendChild(d);
-  });
-  var container = document.querySelector('.mkdf-owl-testimonials');
-  if(container) container.appendChild(dotsWrap);
+  // Build dot nav
+  if(!owl.querySelector('.rose-tes-dots')){
+    var dotsWrap = document.createElement('div');
+    dotsWrap.className = 'rose-tes-dots';
+    items.forEach(function(_,i){
+      var d = document.createElement('button');
+      d.className = 'rose-tes-dot' + (i===0?' active':'');
+      d.setAttribute('aria-label','Testimonial '+(i+1));
+      d.addEventListener('click', function(){ goTo(i); });
+      dotsWrap.appendChild(d);
+    });
+    owl.appendChild(dotsWrap);
+  }
 
   function goTo(n){
     items[current].classList.remove('rose-active');
-    document.querySelectorAll('.rose-tes-dot')[current].classList.remove('active');
+    var dots = owl.querySelectorAll('.rose-tes-dot');
+    if(dots[current]) dots[current].classList.remove('active');
     current = (n + items.length) % items.length;
     items[current].classList.add('rose-active');
-    document.querySelectorAll('.rose-tes-dot')[current].classList.add('active');
+    if(dots[current]) dots[current].classList.add('active');
   }
 
-  // Show first
   items[0].classList.add('rose-active');
 
-  // Wire up existing prev/next arrows
   var prev = document.querySelector('.mkdf-tes-nav-prev');
   var next = document.querySelector('.mkdf-tes-nav-next');
-  if(prev) prev.addEventListener('click', function(){ goTo(current-1); });
-  if(next) next.addEventListener('click', function(){ goTo(current+1); });
+  if(prev){ prev.innerHTML = '&#8249;'; prev.addEventListener('click', function(){ goTo(current-1); }); }
+  if(next){ next.innerHTML = '&#8250;'; next.addEventListener('click', function(){ goTo(current+1); }); }
 
-  // Replace arrow icon markup with readable text
-  if(prev) prev.innerHTML = '&#8249;';
-  if(next) next.innerHTML = '&#8250;';
-
-  // Auto-advance every 5s
   setInterval(function(){ goTo(current+1); }, 5000);
-})();
+}
+
+// Run after everything including modules.min.js window.load handlers
+window.addEventListener('load', function(){
+  roseFixHomepage();
+  // Re-run after short delay to catch any late WP JS overrides
+  setTimeout(roseFixHomepage, 400);
+  setTimeout(roseFixHomepage, 1000);
+});
 </script>
 </body>
 </html>
