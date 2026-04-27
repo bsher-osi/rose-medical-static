@@ -658,6 +658,28 @@ gtag("config", "GT-TX5XVLK");
 
 <script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 <script>
+(function(){{
+  var header = document.querySelector('.mkdf-page-header');
+  var sticky = document.querySelector('.mkdf-sticky-header');
+  if(!header || !sticky) return;
+  var lastScroll = 0;
+  var threshold = header.offsetHeight || 80;
+  window.addEventListener('scroll', function(){{
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    if(y > threshold){{
+      if(y < lastScroll){{
+        sticky.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:1000;display:block !important;transform:translateY(0);transition:transform .3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.15);background:#fff;';
+      }} else {{
+        sticky.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:1000;display:none !important;';
+      }}
+    }} else {{
+      sticky.style.cssText = 'display:none !important;';
+    }}
+    lastScroll = y;
+  }}, {{passive:true}});
+}})();
+</script>
+<script>
 (function fixGap(){{
   function fix(){{
     var btt = document.getElementById("mkdf-back-to-top");
