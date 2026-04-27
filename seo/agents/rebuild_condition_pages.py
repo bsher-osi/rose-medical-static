@@ -656,6 +656,14 @@ gtag("config", "GT-TX5XVLK");
   </div>
 </footer>
 
+<script>
+var mkdfPerPageVars = {{"vars":{{"mkdfStickyScrollAmount":0,"mkdfHeaderTransparencyHeight":0}}}};
+if(typeof window.fluidvids === 'undefined') window.fluidvids = {{init:function(){{}}}};
+(function($){{
+  if($ && !$.fn.mediaelementplayer) $.fn.mediaelementplayer = function(){{return this;}};
+  if($ && !$.fn.perfectScrollbar) $.fn.perfectScrollbar = function(){{return this;}};
+}})(window.jQuery);
+</script>
 <script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 <script>
 (function(){{
