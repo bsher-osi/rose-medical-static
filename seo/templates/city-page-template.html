@@ -360,15 +360,15 @@ gtag("config", "GT-TX5XVLK");
   </div>
 </footer>
 
+<script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules/plugins/jquery.prettyPhoto.js?ver=6.9.4"></script>
+<script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules/plugins/perfect-scrollbar.jquery.min.js?ver=6.9.4"></script>
+<script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules/plugins/ScrollToPlugin.min.js?ver=6.9.4"></script>
+<script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules/plugins/parallax.min.js?ver=6.9.4"></script>
 <script>
-/* Required by modules.min.js — WP localizes this on real pages */
+var mkdfGlobalVars = {"vars":{"mkdfAddForAdminBar":0,"mkdfElementAppearAmount":-100,"mkdfAjaxUrl":"/wp-admin/admin-ajax.php","mkdfStickyHeaderHeight":0,"mkdfStickyHeaderTransparencyHeight":70,"mkdfTopBarHeight":46,"mkdfLogoAreaHeight":0,"mkdfMenuAreaHeight":136,"mkdfMobileHeaderHeight":70}};
 var mkdfPerPageVars = {"vars":{"mkdfStickyScrollAmount":0,"mkdfHeaderTransparencyHeight":0}};
-/* Stub missing plugin dependencies so modules.min.js doesn't crash */
 if(typeof window.fluidvids === 'undefined') window.fluidvids = {init:function(){}};
-(function($){
-  if($ && !$.fn.mediaelementplayer) $.fn.mediaelementplayer = function(){return this;};
-  if($ && !$.fn.perfectScrollbar) $.fn.perfectScrollbar = function(){return this;};
-})(window.jQuery);
+if(typeof window.MediaElement === 'undefined') window.MediaElement = function(){};
 </script>
 <script type="text/javascript" src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 <script>
