@@ -1247,21 +1247,25 @@ End of comment */
   </div>
 </div>
 <script>
-window.addEventListener(‘load’,function(){
+(function(){
   var cur=0;
-  var slides=document.querySelectorAll(‘#rose-carousel .rose-slide’);
-  var dots=document.querySelectorAll(‘#rose-carousel .rose-carousel-dot’);
-  function go(n){
-    slides[cur].classList.remove(‘active’);dots[cur].classList.remove(‘active’);
-    cur=(n+slides.length)%slides.length;
-    slides[cur].classList.add(‘active’);dots[cur].classList.add(‘active’);
+  function init(){
+    var slides=document.querySelectorAll(‘#rose-carousel .rose-slide’);
+    var dots=document.querySelectorAll(‘#rose-carousel .rose-carousel-dot’);
+    if(!slides.length)return;
+    function go(n){
+      slides[cur].classList.remove(‘active’);dots[cur].classList.remove(‘active’);
+      cur=(n+slides.length)%slides.length;
+      slides[cur].classList.add(‘active’);dots[cur].classList.add(‘active’);
+    }
+    document.getElementById(‘rose-prev’).addEventListener(‘click’,function(e){e.stopImmediatePropagation();e.preventDefault();go(cur-1);},true);
+    document.getElementById(‘rose-next’).addEventListener(‘click’,function(e){e.stopImmediatePropagation();e.preventDefault();go(cur+1);},true);
+    dots.forEach(function(d){d.addEventListener(‘click’,function(e){e.stopImmediatePropagation();e.preventDefault();go(+d.dataset.i);},true);});
+    setInterval(function(){go(cur+1);},5000);
   }
-  /* capture:true fires before any WP handler can stopPropagation */
-  document.getElementById(‘rose-prev’).addEventListener(‘click’,function(e){e.stopImmediatePropagation();go(cur-1);},true);
-  document.getElementById(‘rose-next’).addEventListener(‘click’,function(e){e.stopImmediatePropagation();go(cur+1);},true);
-  dots.forEach(function(d){d.addEventListener(‘click’,function(e){e.stopImmediatePropagation();go(+d.dataset.i);},true);});
-  setInterval(function(){go(cur+1);},5000);
-});
+  if(document.readyState===’complete’){init();}
+  else{window.addEventListener(‘load’,init);}
+})();
 </script>
 </div><div id="common" class="vc_row wpb_row vc_row-fluid vc_custom_1703256933667 vc_row-has-fill"><div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill"><div class="vc_column-inner vc_custom_1703257400382"><div class="wpb_wrapper"><div class="mkdf-elements-holder mkdf-one-column mkdf-responsive-mode-768"><div class="mkdf-eh-item " data-item-class="mkdf-eh-custom-748579" data-1280-1600="0px 15%" data-1024-1280="0px 15%" data-768-1024="0px 5%" data-600-768="0px" data-480-600="0px" data-480="0px 0% 0px">
 	<div class="mkdf-eh-item-inner">
