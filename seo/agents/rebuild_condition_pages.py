@@ -316,6 +316,7 @@ PAGE_TEMPLATE = '''<!DOCTYPE html>
 <html dir="ltr" lang="en-US" prefix="og: https://ogp.me/ns#">
 <head><meta charset="UTF-8">
 <link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="icon" type="image/png" href="/wp-content/uploads/2017/05/favicon.png">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
 <title>{title} | Rose Medical Pavilion</title>
 <meta name="description" content="{description}">

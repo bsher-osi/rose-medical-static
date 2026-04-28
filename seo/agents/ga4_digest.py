@@ -22,7 +22,7 @@ REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../.."))
 CREDS_PATH = os.path.join(SCRIPT_DIR, "../credentials/ga4-service-account.json")
 REPORTS_DIR = os.path.join(SCRIPT_DIR, "../reports")
 
-PROPERTY_ID = os.environ.get("GA4_PROPERTY_ID", "properties/XXXXXXXXX")
+PROPERTY_ID = os.environ.get("GA4_PROPERTY_ID", "properties/534869539")
 
 
 def run_report(days):
@@ -98,11 +98,11 @@ def build_report(days, overview, top_pages, sources, conversions, start, end):
         "## Overview",
         f"| Metric | Value |",
         f"|--------|-------|",
-        f"| Sessions | {mv(overview.rows[0], 0)} |",
-        f"| Total Users | {mv(overview.rows[0], 1)} |",
-        f"| New Users | {mv(overview.rows[0], 2)} |",
-        f"| Bounce Rate | {float(mv(overview.rows[0], 3)):.1%} |",
-        f"| Avg Session Duration | {float(mv(overview.rows[0], 4)):.0f}s |",
+        f"| Sessions | {mv(overview.rows[0], 0) if overview.rows else '0'} |",
+        f"| Total Users | {mv(overview.rows[0], 1) if overview.rows else '0'} |",
+        f"| New Users | {mv(overview.rows[0], 2) if overview.rows else '0'} |",
+        f"| Bounce Rate | {float(mv(overview.rows[0], 3)):.1%} |" if overview.rows else "| Bounce Rate | 0.0% |",
+        f"| Avg Session Duration | {float(mv(overview.rows[0], 4)):.0f}s |" if overview.rows else "| Avg Session Duration | 0s |",
         "",
         "## Top Pages",
         "| Page | Sessions | Users |",
