@@ -66,3 +66,21 @@ jobs:
           git add seo/reports/
           git diff --staged --quiet || git commit -m "seo: weekly reports $(date -I)"
           git push
+
+      - name: Email reports
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "Rose Medical SEO Report — ${{ github.run_id }}"
+          to: benjaminsher@gmail.com,tz@rosemedicalpavilion.com
+          from: benjamin@rosemedicalpavilion.com
+          body: |
+            Weekly SEO report for Rose Medical Pavilion is ready.
+
+            Reports are committed to the repo at seo/reports/.
+
+            — GitHub Actions
+          attachments: seo/reports/*.md
