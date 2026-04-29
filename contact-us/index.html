@@ -963,16 +963,82 @@ End of comment */
 													</div>
 													<div class="wpb_text_column wpb_content_element">
 														<div class="wpb_wrapper">
-															<p>We welcome new patients and referrals. Please call our office or use the information below to get in touch.</p>
-<h3>Office Information</h3>
-<p><strong>Address:</strong> 22044 N 44th St, Suite 200, Phoenix, AZ 85050<br>
-<strong>Phone:</strong> <a href="tel:+16028927467">(602) 892-7467</a><br>
-<strong>Fax:</strong> (623) 257-7344<br>
-<strong>Email:</strong> <a href="mailto:info@rosemedicalpavilion.com">info@rosemedicalpavilion.com</a></p>
-<h3>Office Hours</h3>
-<p>Monday – Friday: 8:00 AM – 4:00 PM<br>
-Saturday – Sunday: Closed</p>
-<p><a href="/schedule-online/" class="mkdf-btn mkdf-btn-medium mkdf-btn-solid" style="background-color:#005da8;color:#fff;display:inline-block;padding:12px 28px;border-radius:4px;text-decoration:none;">Schedule Online</a></p>
+
+<style>
+.rose-contact-wrap { display:flex; gap:60px; flex-wrap:wrap; margin-top:10px; }
+.rose-contact-info { flex:0 0 280px; }
+.rose-contact-info h3 { color:#005da8; font-size:18px; margin:24px 0 8px; }
+.rose-contact-info p { margin:0 0 6px; line-height:1.7; }
+.rose-contact-form { flex:1 1 340px; }
+.rose-contact-form h3 { color:#005da8; font-size:18px; margin:0 0 16px; }
+.rose-form-group { margin-bottom:18px; }
+.rose-form-group label { display:block; font-weight:600; margin-bottom:5px; font-size:14px; }
+.rose-form-group input,
+.rose-form-group textarea { width:100%; padding:10px 14px; border:1px solid #d0d0d0; border-radius:4px; font-size:15px; font-family:inherit; box-sizing:border-box; }
+.rose-form-group textarea { height:130px; resize:vertical; }
+.rose-form-group input:focus,
+.rose-form-group textarea:focus { outline:none; border-color:#005da8; }
+.rose-honeypot { display:none; }
+.rose-submit-btn { background:#005da8; color:#fff; border:none; padding:13px 32px; font-size:15px; font-weight:600; border-radius:4px; cursor:pointer; font-family:inherit; }
+.rose-submit-btn:hover { background:#004a8a; }
+.rose-form-notice { padding:12px 16px; border-radius:4px; margin-bottom:18px; font-size:14px; }
+.rose-form-notice.success { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+.rose-form-notice.error { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+</style>
+
+<script>
+(function(){
+  var p = new URLSearchParams(window.location.search);
+  if(p.get("success")==="1"){
+    document.addEventListener("DOMContentLoaded",function(){
+      var el=document.getElementById("rose-form-msg");
+      if(el){el.innerHTML="<div class='rose-form-notice success'>Thank you! We'll be in touch within one business day.</div>";}
+    });
+  } else if(p.get("error")){
+    document.addEventListener("DOMContentLoaded",function(){
+      var el=document.getElementById("rose-form-msg");
+      if(el){el.innerHTML="<div class='rose-form-notice error'>Something went wrong. Please call us at (602) 892-7467.</div>";}
+    });
+  }
+})();
+</script>
+
+<div class="rose-contact-wrap">
+  <div class="rose-contact-info">
+    <h3>Office</h3>
+    <p>22044 N 44th St, Suite 200<br>Phoenix, AZ 85050</p>
+    <h3>Phone &amp; Fax</h3>
+    <p><a href="tel:+16028927467">(602) 892-7467</a><br>Fax: (623) 257-7344</p>
+    <h3>Email</h3>
+    <p><a href="mailto:info@rosemedicalpavilion.com">info@rosemedicalpavilion.com</a></p>
+    <h3>Hours</h3>
+    <p>Monday – Friday<br>8:00 AM – 4:00 PM</p>
+  </div>
+  <div class="rose-contact-form">
+    <h3>Send Us a Message</h3>
+    <div id="rose-form-msg"></div>
+    <form action="/contact" method="POST">
+      <div class="rose-honeypot"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="rose-form-group">
+        <label for="cf-name">Full Name *</label>
+        <input type="text" id="cf-name" name="name" required placeholder="Jane Smith">
+      </div>
+      <div class="rose-form-group">
+        <label for="cf-email">Email Address *</label>
+        <input type="email" id="cf-email" name="email" required placeholder="jane@example.com">
+      </div>
+      <div class="rose-form-group">
+        <label for="cf-phone">Phone Number</label>
+        <input type="tel" id="cf-phone" name="phone" placeholder="(602) 555-0100">
+      </div>
+      <div class="rose-form-group">
+        <label for="cf-message">Message *</label>
+        <textarea id="cf-message" name="message" required placeholder="How can we help?"></textarea>
+      </div>
+      <button type="submit" class="rose-submit-btn">Send Message</button>
+    </form>
+  </div>
+</div>
 														</div>
 													</div>
 												</div>
