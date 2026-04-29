@@ -913,9 +913,26 @@ End of comment */
     </div>
 </div>    </div>
 </div></div></div></div></div></div></div><div class="mkdf-row-grid-section-wrapper " style="background-color:#fafafa"><div class="mkdf-row-grid-section"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+<script>
+(function(){
+  var p = new URLSearchParams(window.location.search);
+  if(p.get("success")==="1"){
+    document.addEventListener("DOMContentLoaded",function(){
+      var el=document.getElementById("refer-msg");
+      if(el){el.innerHTML="<div style='background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:12px 16px;border-radius:4px;margin-bottom:18px;'>Thank you! Your referral has been received. We will follow up within one business day.</div>";}
+    });
+  } else if(p.get("error")){
+    document.addEventListener("DOMContentLoaded",function(){
+      var el=document.getElementById("refer-msg");
+      if(el){el.innerHTML="<div style='background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:12px 16px;border-radius:4px;margin-bottom:18px;'>Something went wrong. Please call us at (602) 892-7467.</div>";}
+    });
+  }
+})();
+</script>
+<div id="refer-msg"></div>
 <div class="wpcf7 no-js" id="wpcf7-f10779-p10777-o1" lang="en-US" dir="ltr" data-wpcf7-id="10779">
 <div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
-<form action="/refer-a-patient/?simply_static_page=6397#wpcf7-f10779-p10777-o1" method="post" class="wpcf7-form init cf7_custom_style_2" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<form action="/refer" method="post" class="wpcf7-form init cf7_custom_style_2" aria-label="Contact form" novalidate="novalidate" data-status="init">
 <fieldset class="hidden-fields-container"><input type="hidden" name="_wpcf7" value="10779"><input type="hidden" name="_wpcf7_version" value="6.1.4"><input type="hidden" name="_wpcf7_locale" value="en_US"><input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f10779-p10777-o1"><input type="hidden" name="_wpcf7_container_post" value="10777"><input type="hidden" name="_wpcf7_posted_data_hash" value="">
 </fieldset>
 <p><label><strong> Referrer Name (required)</strong><br>

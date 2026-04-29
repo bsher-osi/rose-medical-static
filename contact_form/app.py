@@ -128,6 +128,81 @@ def contact():
     return redirect("/contact-us/?success=1")
 
 
+@app.route("/refer", methods=["POST"])
+def refer():
+    referrer_name  = request.form.get("referrer-name", "").strip()
+    referrer_phone = request.form.get("referrer-phone", "").strip()
+    referrer_email = request.form.get("email-576", "").strip()
+    patient_name   = request.form.get("patient-name", "").strip()
+    patient_dob    = request.form.get("patient-dob", "").strip()
+    insurance      = request.form.get("patient-insurance", "").strip()
+    policy         = request.form.get("policynumber", "").strip()
+    parent_name    = request.form.get("parent-name", "").strip()
+    parent_phone   = request.form.get("parent-phone", "").strip()
+    complaint      = request.form.get("your-message", "").strip()
+
+    if not referrer_name or not referrer_email or not patient_name:
+        return redirect("/refer-a-patient/?error=missing")
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"New Patient Referral from {referrer_name}"
+    msg["From"]    = FROM_EMAIL
+    msg["To"]      = TO_EMAIL
+    msg["Reply-To"] = f"{referrer_name} <{referrer_email}>"
+
+    body = f"""\
+New patient referral submitted via rosemedicalpavilion.com
+
+REFERRER
+Name:   {referrer_name}
+Phone:  {referrer_phone}
+Email:  {referrer_email}
+
+PATIENT
+Name:   {patient_name}
+DOB:    {patient_dob}
+Parent: {parent_name}
+Parent Phone: {parent_phone}
+
+INSURANCE
+Carrier: {insurance or 'Not provided'}
+Policy:  {policy or 'Not provided'}
+
+CHIEF COMPLAINT
+{complaint}
+"""
+    html = f"""\
+<html><body style="font-family:Arial,sans-serif;color:#333;">
+<h2>New Patient Referral</h2>
+<h3>Referrer</h3>
+<table><tr><td><strong>Name</strong></td><td>{referrer_name}</td></tr>
+<tr><td><strong>Phone</strong></td><td>{referrer_phone}</td></tr>
+<tr><td><strong>Email</strong></td><td><a href="mailto:{referrer_email}">{referrer_email}</a></td></tr></table>
+<h3>Patient</h3>
+<table><tr><td><strong>Name</strong></td><td>{patient_name}</td></tr>
+<tr><td><strong>DOB</strong></td><td>{patient_dob}</td></tr>
+<tr><td><strong>Parent</strong></td><td>{parent_name}</td></tr>
+<tr><td><strong>Parent Phone</strong></td><td>{parent_phone}</td></tr></table>
+<h3>Insurance</h3>
+<table><tr><td><strong>Carrier</strong></td><td>{insurance or 'Not provided'}</td></tr>
+<tr><td><strong>Policy</strong></td><td>{policy or 'Not provided'}</td></tr></table>
+<h3>Chief Complaint</h3>
+<p>{complaint.replace(chr(10), '<br>')}</p>
+</body></html>
+"""
+    try:
+        msg.attach(MIMEText(body, "plain"))
+        msg.attach(MIMEText(html, "html"))
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(FROM_ADDR, TO_EMAIL, msg.as_string())
+    except Exception as e:
+        app.logger.error(f"Referral email failed: {e}")
+        return redirect("/refer-a-patient/?error=send")
+
+    return redirect("/refer-a-patient/?success=1")
+
+
 @app.route("/health")
 def health():
     return "ok"
