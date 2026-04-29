@@ -19,6 +19,7 @@ SMTP_PORT = 465
 SMTP_USER = os.environ["SMTP_USER"]
 SMTP_PASS = os.environ["SMTP_PASS"]
 TO_EMAIL  = "info@rosemedicalpavilion.com"
+FROM_ADDR  = "benjamin@rosemedicalpavilion.com"
 FROM_EMAIL = "Rose Medical Pavilion <benjamin@rosemedicalpavilion.com>"
 REPLY_TO   = "info@rosemedicalpavilion.com"
 
@@ -57,7 +58,7 @@ Message:
 
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
         server.login(SMTP_USER, SMTP_PASS)
-        server.sendmail(FROM_EMAIL, TO_EMAIL, msg.as_string())
+        server.sendmail(FROM_ADDR, TO_EMAIL, msg.as_string())
 
     # Confirmation email to submitter
     confirm = MIMEMultipart("alternative")
@@ -95,7 +96,7 @@ If you need immediate assistance, please call us at (602) 892-7467.
 
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
         server.login(SMTP_USER, SMTP_PASS)
-        server.sendmail(FROM_EMAIL, email, confirm.as_string())
+        server.sendmail(FROM_ADDR, [email], confirm.as_string())
 
 
 @app.route("/contact", methods=["POST"])
