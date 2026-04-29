@@ -19,15 +19,16 @@ SMTP_PORT = 465
 SMTP_USER = os.environ["SMTP_USER"]
 SMTP_PASS = os.environ["SMTP_PASS"]
 TO_EMAIL  = "info@rosemedicalpavilion.com"
-FROM_EMAIL = "benjamin@rosemedicalpavilion.com"
+FROM_EMAIL = "Rose Medical Pavilion <benjamin@rosemedicalpavilion.com>"
+REPLY_TO   = "info@rosemedicalpavilion.com"
 
 
 def send_email(name, email, phone, message):
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"New Contact Form Submission — {name}"
+    msg["Subject"] = f"New Contact Form Submission from {name}"
     msg["From"]    = FROM_EMAIL
     msg["To"]      = TO_EMAIL
-    msg["Reply-To"] = email
+    msg["Reply-To"] = f"{name} <{email}>"
 
     body = f"""\
 New contact form submission from rosemedicalpavilion.com
@@ -60,7 +61,8 @@ Message:
 
     # Confirmation email to submitter
     confirm = MIMEMultipart("alternative")
-    confirm["Subject"] = "We received your message — Rose Medical Pavilion"
+    confirm["Subject"] = "We received your message - Rose Medical Pavilion"
+    confirm["Reply-To"] = REPLY_TO
     confirm["From"]    = FROM_EMAIL
     confirm["To"]      = email
 
