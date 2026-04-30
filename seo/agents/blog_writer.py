@@ -199,6 +199,14 @@ Requirements:
 - End with a brief CTA to schedule at Rose Medical Pavilion (no contact info needed — we add that)
 - Return HTML only (h2, h3, p, ul, ol tags — no full page wrapper, no <html>/<body>/<head>)
 - Do not include the H1 title (we add that separately)
+- Naturally include 2-3 internal links to relevant pages on the site (use full anchor tags):
+  * Seizures/epilepsy topics: <a href="/pediatric-seizures-phoenix/">pediatric seizures</a> or <a href="/pediatric-epilepsy-phoenix/">pediatric epilepsy</a>
+  * Headache/migraine topics: <a href="/pediatric-headaches-phoenix/">pediatric headaches</a>
+  * EEG/brain monitoring: <a href="/pediatric-eeg-phoenix/">pediatric EEG</a>
+  * Concussion topics: <a href="/pediatric-concussion-phoenix/">pediatric concussion care</a>
+  * Tics/Tourette topics: <a href="/tics/">tics and Tourette syndrome</a>
+  * General "about our practice": <a href="/about-us/">about Dr. Tamara Zach MD</a>
+  Only link to pages that are genuinely relevant to the post content.
 
 Write the post now:"""
 
