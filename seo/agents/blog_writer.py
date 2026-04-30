@@ -37,7 +37,7 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
   "description":"{description}",
   "url":"https://rosemedicalpavilion.com/blogs/{slug}/",
   "datePublished":"{pub_date}",
-  "author":{{"@type":"Physician","name":"Dr. Zach Rose MD","url":"https://rosemedicalpavilion.com/about-us/"}},
+  "author":{{"@type":"Physician","name":"Dr. Tamara Zach MD","url":"https://rosemedicalpavilion.com/about-us/"}},
   "publisher":{{"@type":"Organization","name":"Rose Medical Pavilion","url":"https://rosemedicalpavilion.com/"}}
 }}
 </script>
@@ -83,12 +83,12 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 <nav aria-label="Breadcrumb" style="margin-bottom:1em;font-size:0.9em;">
   <a href="/">Home</a> &rsaquo; <a href="/blogs/">Blog</a> &rsaquo; {title}
 </nav>
-<p style="color:#888;font-size:0.9em;">By Dr. Zach Rose MD &mdash; {pub_date_display}</p>
+<p style="color:#888;font-size:0.9em;">By Dr. Tamara Zach MD &mdash; {pub_date_display}</p>
 {body}
 <hr style="margin:2em 0;">
 <div style="background:#f8f4f2;padding:1.5em;border-left:4px solid #de7f68;">
   <h3 style="margin-top:0;">Schedule an Appointment</h3>
-  <p>Questions about your child's neurological health? Dr. Zach Rose MD at Rose Medical Pavilion is here to help. Call <strong><a href="tel:+16028927467">(602) 892-7467</a></strong> or <a href="/schedule-online/">schedule online</a>.</p>
+  <p>Questions about your child's neurological health? Dr. Tamara Zach MD at Rose Medical Pavilion is here to help. Call <strong><a href="tel:+16232577673">(623) 257-ROSE (7673)</a></strong> or <a href="/schedule-online/">schedule online</a>.</p>
 </div>
 </div></div>
 </div></div>
@@ -96,8 +96,8 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 </div></div>
 <footer class="rose-footer">
   <div class="rose-footer-inner">
-    <div class="rose-footer-col"><i class="ion-android-call rose-footer-icon"></i><h4>Call</h4><p>(602) 892-7467</p></div>
-    <div class="rose-footer-col"><i class="ion-location rose-footer-icon"></i><h4>Location</h4><p>4045 E Bell Rd, Suite 131<br>Phoenix, AZ 85032</p></div>
+    <div class="rose-footer-col"><i class="ion-android-call rose-footer-icon"></i><h4>Call</h4><p>(623) 257-ROSE (7673)</p></div>
+    <div class="rose-footer-col"><i class="ion-location rose-footer-icon"></i><h4>Location</h4><p>22044 N 44th St, Suite 200<br>Phoenix, AZ 85050</p></div>
     <div class="rose-footer-col"><i class="ion-calendar rose-footer-icon"></i><h4>Request an appointment</h4>
       <a href="/schedule-online/" class="rose-footer-btn rose-footer-btn-coral">Schedule Online</a>
       <a href="/refer-a-patient/" class="rose-footer-btn rose-footer-btn-blue">Refer Patient</a>
@@ -108,6 +108,68 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 <script src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 </body></html>
 '''
+
+
+def send_draft_email(topics_written, config):
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+
+    smtp_user = os.environ.get("SMTP_USER", "")
+    smtp_pass = os.environ.get("SMTP_PASS", "")
+    if not smtp_user or not smtp_pass:
+        print("No SMTP credentials — skipping draft email")
+        return
+
+    previews = ""
+    for slug, title, body in topics_written:
+        previews += f"""
+<div style="border:1px solid #eee;border-radius:4px;padding:1.5em;margin-bottom:1.5em;">
+  <h3 style="color:#005da8;margin-top:0;">{title}</h3>
+  <p style="font-size:0.85em;color:#888;">URL: https://rosemedicalpavilion.com/blogs/{slug}/</p>
+  {body[:2000]}{'...' if len(body) > 2000 else ''}
+</div>"""
+
+    slugs = ", ".join(s for s, _, __ in topics_written)
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"[Blog Drafts for Review] {len(topics_written)} new post(s) — auto-publish in 24 hrs"
+    msg["From"] = "Rose Medical Pavilion <benjamin@rosemedicalpavilion.com>"
+    msg["To"] = "tz@rosemedicalpavilion.com, benjaminsher@gmail.com"
+
+    plain = f"""New blog post drafts for review.
+
+Posts: {slugs}
+These will auto-publish in approximately 24 hours.
+
+To REJECT a post before it goes live, go to:
+https://github.com/bsher-osi/rose-medical-static/actions
+and run the "Reject Blog Draft" workflow with the slug name.
+
+— Rose Medical Pavilion Blog Automation
+"""
+    html = f"""<html><body style="font-family:Arial,sans-serif;color:#333;max-width:700px;margin:0 auto;">
+<div style="background:#005da8;padding:20px 32px;">
+  <h2 style="color:#fff;margin:0;">Blog Drafts for Review</h2>
+</div>
+<div style="padding:24px;">
+  <p><strong>{len(topics_written)} new post(s)</strong> will auto-publish in ~24 hours.</p>
+  <p style="color:#888;font-size:0.9em;">To reject a post, run the <em>Reject Blog Draft</em> workflow on GitHub Actions with the post slug.</p>
+  <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+  {previews}
+</div>
+</body></html>"""
+
+    msg.attach(MIMEText(plain, "plain"))
+    msg.attach(MIMEText(html, "html"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(smtp_user, smtp_pass)
+        server.sendmail(
+            "benjamin@rosemedicalpavilion.com",
+            ["tz@rosemedicalpavilion.com", "benjaminsher@gmail.com"],
+            msg.as_string()
+        )
+    print(f"Draft review email sent for: {slugs}")
 
 
 def load_config():
@@ -133,7 +195,7 @@ Requirements:
 - 900-1100 words
 - Use H2 and H3 headings
 - Arizona-specific content (heat, AzEIP, AHCCCS, local resources when relevant)
-- E-E-A-T signals: cite medical expertise, reference Dr. Zach Rose MD naturally
+- E-E-A-T signals: cite medical expertise, reference Dr. Tamara Zach MD naturally
 - End with a brief CTA to schedule at Rose Medical Pavilion (no contact info needed — we add that)
 - Return HTML only (h2, h3, p, ul, ol tags — no full page wrapper, no <html>/<body>/<head>)
 - Do not include the H1 title (we add that separately)
@@ -195,6 +257,7 @@ def main():
         parser.print_help()
         sys.exit(1)
 
+    topics_written = []
     for topic in topics:
         out_dir = os.path.join(BLOG_DIR, topic["slug"])
         out_path = os.path.join(out_dir, "index.html")
@@ -214,9 +277,16 @@ def main():
             os.makedirs(out_dir, exist_ok=True)
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(html)
+            topics_written.append((topic["slug"], topic["title"], body))
             print(f"    wrote: /blogs/{topic['slug']}/index.html")
         except Exception as e:
             print(f"    ERROR: {e}")
+
+    if topics_written:
+        try:
+            send_draft_email(topics_written, config)
+        except Exception as e:
+            print(f"  Email error: {e}")
 
     print("\nDone.")
 

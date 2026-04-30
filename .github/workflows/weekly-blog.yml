@@ -1,20 +1,21 @@
-name: Weekly Blog Posts
+name: Blog Post Generator
 
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+    - cron: '0 14 * * 1'  # Monday    9am MST
+    - cron: '0 14 * * 3'  # Wednesday 9am MST
+    - cron: '0 14 * * 5'  # Friday    9am MST
   workflow_dispatch:
     inputs:
       count:
         description: 'Number of posts to generate'
-        default: '2'
+        default: '1'
 
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -25,31 +26,19 @@ jobs:
 
       - run: pip install anthropic pyyaml
 
-      - name: Generate blog posts
+      - name: Generate blog posts and email drafts for review
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SMTP_USER: ${{ secrets.GMAIL_USERNAME }}
+          SMTP_PASS: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
-          COUNT="${{ github.event.inputs.count || '2' }}"
+          COUNT="${{ github.event.inputs.count || '1' }}"
           python seo/agents/blog_writer.py --count "$COUNT"
 
-      - name: Check for new posts
-        id: check
+      - name: Commit and deploy
         run: |
-          if git diff --quiet && git ls-files --others --exclude-standard | grep -q .; then
-            echo "new_posts=true" >> $GITHUB_OUTPUT
-          elif ! git diff --quiet; then
-            echo "new_posts=true" >> $GITHUB_OUTPUT
-          else
-            echo "new_posts=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Create Pull Request
-        if: steps.check.outputs.new_posts == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'content: add weekly blog posts'
-          title: 'Weekly Blog Posts — ${{ github.run_id }}'
-          body: 'Auto-generated blog posts from weekly-blog workflow.'
-          branch: 'auto/blog-${{ github.run_id }}'
-          base: main
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blogs/
+          git diff --staged --quiet || git commit -m "content: add blog post(s) $(date -I)"
+          git push
