@@ -72,7 +72,7 @@ Hi {name},
 
 Thank you for reaching out to Rose Medical Pavilion. We received your message and will be in touch within one business day.
 
-If you need immediate assistance, please call us at (602) 892-7467.
+If you need immediate assistance, please call us at (623) 257-7673.
 
 — Rose Medical Pavilion
 22044 N 44th St, Suite 200, Phoenix, AZ 85050
@@ -85,7 +85,7 @@ If you need immediate assistance, please call us at (602) 892-7467.
 <div style="padding:32px;">
   <p>Hi {name},</p>
   <p>Thank you for reaching out to Rose Medical Pavilion. We received your message and will be in touch within one business day.</p>
-  <p>If you need immediate assistance, please call us at <a href="tel:+16028927467" style="color:#005da8;">(602) 892-7467</a>.</p>
+  <p>If you need immediate assistance, please call us at <a href="tel:+16232577673" style="color:#005da8;">(623) 257-7673</a>.</p>
   <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
   <p style="font-size:13px;color:#888;">Rose Medical Pavilion &nbsp;|&nbsp; 22044 N 44th St, Suite 200, Phoenix, AZ 85050</p>
 </div>
