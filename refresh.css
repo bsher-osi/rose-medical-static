@@ -88,7 +88,8 @@ p { color: var(--rose-muted) !important; line-height: 1.75 !important; }
 
 /* Logo — constrain the square 1201×1200 image to header height */
 .mkdf-logo-wrapper img.mkdf-normal-logo,
-.mkdf-logo-wrapper img.mkdf-dark-logo {
+.mkdf-logo-wrapper img.mkdf-dark-logo,
+.mkdf-logo-wrapper img {
   width: auto !important;
   height: 56px !important;
   max-width: 160px !important;
