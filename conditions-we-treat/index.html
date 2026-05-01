@@ -21,13 +21,16 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","GT-TX5XVLK");</script>
 <style>
 .cwt-hero {
-  background: linear-gradient(135deg, #005da8 0%, #0078d4 100%);
+  background: url(/wp-content/uploads/2023/11/pagebackground-1-scaled.jpeg) center/cover no-repeat;
   padding: 60px 40px;
   text-align: center;
   color: #fff;
+  position: relative;
 }
+.cwt-hero::before { content:''; position:absolute; inset:0; background:rgba(0,30,80,0.52); }
+.cwt-hero h1, .cwt-hero p { position: relative; }
 .cwt-hero h1 { color: #fff; font-size: 2.2rem; margin: 0 0 12px; }
-.cwt-hero p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+.cwt-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.9) !important; max-width: 600px; margin: 0 auto; }
 .cwt-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -49,9 +52,8 @@
 .cwt-card:hover { box-shadow: 0 6px 24px rgba(0,93,168,.12); transform: translateY(-2px); color: #333 !important; text-decoration: none !important; }
 .cwt-card * { text-decoration: none !important; }
 .cwt-card-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
-.cwt-card h3 { color: #005da8 !important; font-size: 1.1rem; margin: 0 0 8px; }
-.cwt-card p { font-size: 0.9rem; color: #555 !important; margin: 0; line-height: 1.5; }
-.cwt-hero p { color: rgba(255,255,255,0.92) !important; }
+.cwt-card h3 { color: #005da8; font-size: 1.1rem; margin: 0 0 8px; }
+.cwt-card p { font-size: 0.9rem; color: #555; margin: 0; line-height: 1.5; }
 .cwt-cta {
   background: #f8f4f2;
   border-left: 4px solid #de7f68;
