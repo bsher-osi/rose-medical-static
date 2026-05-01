@@ -41,15 +41,17 @@
   border-radius: 8px;
   border: 1px solid #e5e9f0;
   padding: 28px 24px;
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none !important;
+  color: #333 !important;
   transition: box-shadow .2s, transform .2s;
   display: block;
 }
-.cwt-card:hover { box-shadow: 0 6px 24px rgba(0,93,168,.12); transform: translateY(-2px); color: inherit; }
-.cwt-card-icon { font-size: 2rem; margin-bottom: 12px; }
-.cwt-card h3 { color: #005da8; font-size: 1.1rem; margin: 0 0 8px; }
-.cwt-card p { font-size: 0.9rem; color: #666; margin: 0; line-height: 1.5; }
+.cwt-card:hover { box-shadow: 0 6px 24px rgba(0,93,168,.12); transform: translateY(-2px); color: #333 !important; text-decoration: none !important; }
+.cwt-card * { text-decoration: none !important; }
+.cwt-card-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+.cwt-card h3 { color: #005da8 !important; font-size: 1.1rem; margin: 0 0 8px; }
+.cwt-card p { font-size: 0.9rem; color: #555 !important; margin: 0; line-height: 1.5; }
+.cwt-hero p { color: rgba(255,255,255,0.92) !important; }
 .cwt-cta {
   background: #f8f4f2;
   border-left: 4px solid #de7f68;
@@ -222,5 +224,6 @@
   <div class="rose-footer-bottom"><p>&copy; 2026 Rose Medical Pavilion All Rights Reserved</p></div>
 </footer>
 <script src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script>var mkdfGlobalVars={"vars":{"mkdfAddForAdminBar":0,"mkdfElementAppearAmount":-100,"mkdfAjaxUrl":"/wp-admin/admin-ajax.php","mkdfStickyHeaderHeight":0,"mkdfStickyHeaderTransparencyHeight":70,"mkdfTopBarHeight":46,"mkdfLogoAreaHeight":0,"mkdfMenuAreaHeight":90,"mkdfMobileHeaderHeight":70}};var mkdfPerPageVars={"vars":{"mkdfStickyScrollAmount":0,"mkdfHeaderTransparencyHeight":0}};</script>
 <script src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 </body></html>
