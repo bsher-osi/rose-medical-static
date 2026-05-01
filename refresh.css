@@ -780,6 +780,10 @@ a:focus-visible, button:focus-visible {
 #wpadminbar { display: none !important; }
 html { margin-top: 0 !important; }
 
+/* Kill the theme's page-transition preloader overlay (shows Rose logo on every click) */
+.mkdf-smooth-page-transitions-preloader,
+.mkdf-smooth-page-transitions-fadeout { display: none !important; }
+
 /* Hide Revolution Slider raw HTML until JS initializes it (prevents watermark flash) */
 .rev_slider_wrapper:not(.rs-loaded) { visibility: hidden; }
 .rev_slider_wrapper { transition: visibility 0s; }
