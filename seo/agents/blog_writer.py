@@ -11,6 +11,7 @@ Usage:
 
 import argparse
 import os
+import re
 import sys
 import yaml
 from datetime import date
@@ -63,7 +64,10 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
     <nav class="mkdf-main-menu mkdf-drop-down mkdf-default-nav"><ul class="clearfix">
       <li class="menu-item narrow"><a href="/"><span class="item_outer"><span class="item_text">Home</span></span></a></li>
       <li class="menu-item narrow"><a href="/about-us/"><span class="item_outer"><span class="item_text">About Us</span></span></a></li>
+      <li class="menu-item narrow"><a href="/conditions-we-treat/"><span class="item_outer"><span class="item_text">Conditions We Treat</span></span></a></li>
       <li class="menu-item narrow"><a href="/blogs/"><span class="item_outer"><span class="item_text">Blog</span></span></a></li>
+      <li class="menu-item narrow"><a href="/refer-a-patient/"><span class="item_outer"><span class="item_text">Refer a Patient</span></span></a></li>
+      <li class="menu-item narrow"><a href="/careers/"><span class="item_outer"><span class="item_text">Careers</span></span></a></li>
       <li class="menu-item narrow"><a href="/contact-us/"><span class="item_outer"><span class="item_text">Contact Us</span></span></a></li>
       <li class="menu-item narrow"><a href="/schedule-online/"><span class="item_outer"><span class="item_text">Schedule Online</span></span></a></li>
     </ul></nav>
@@ -216,7 +220,12 @@ Write the post now:"""
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
-    return message.content[0].text
+    text = message.content[0].text.strip()
+    # Strip markdown code fences if Claude wrapped the response
+    if text.startswith("```"):
+        text = re.sub(r"^```[a-z]*\n?", "", text)
+        text = re.sub(r"\n?```$", "", text)
+    return text.strip()
 
 
 def build_html(topic, body):
