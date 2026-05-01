@@ -109,7 +109,6 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
   </div>
   <div class="rose-footer-bottom"><p>&copy; 2026 Rose Medical Pavilion All Rights Reserved</p></div>
 </footer>
-<script src="/wp-content/themes/mediclinic/assets/js/modules.min.js?ver=6.9.4"></script>
 </body></html>
 '''
 
