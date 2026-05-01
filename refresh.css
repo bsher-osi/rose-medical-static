@@ -784,6 +784,11 @@ html { margin-top: 0 !important; }
 .mkdf-smooth-page-transitions-preloader,
 .mkdf-smooth-page-transitions-fadeout { display: none !important; }
 
+/* When the theme fades out mkdf-wrapper-inner on navigation, the body background
+   shows through. Keep the page background white so nothing bleeds through. */
+body { background-color: #fff !important; background-image: none !important; }
+.mkdf-wrapper, .mkdf-wrapper-inner { background-color: #fff !important; background-image: none !important; }
+
 /* Hide Revolution Slider raw HTML until JS initializes it (prevents watermark flash) */
 .rev_slider_wrapper:not(.rs-loaded) { visibility: hidden; }
 .rev_slider_wrapper { transition: visibility 0s; }
