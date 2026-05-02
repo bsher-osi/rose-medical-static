@@ -53,7 +53,7 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 <script src="https://www.googletagmanager.com/gtag/js?id=GT-TX5XVLK" async></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag("js",new Date());gtag("config","GT-TX5XVLK");</script>
 </head>
-<body class="single-post">
+<body class="page-template-default page wp-theme-mediclinic mkdf-core-2.0 mediclinic-ver-2.0 mkdf-grid-1200 mkdf-sticky-header-on-scroll-down-up mkdf-dropdown-animate-height mkdf-header-standard mkdf-menu-area-in-grid-shadow-disable mkdf-default-mobile-header mkdf-sticky-up-mobile-header">
 <div class="mkdf-wrapper"><div class="mkdf-wrapper-inner">
 <header class="mkdf-page-header">
 <div class="mkdf-top-bar">
