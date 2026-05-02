@@ -156,6 +156,7 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 <script src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
 <script src="/wp-content/themes/mediclinic/assets/js/modules/plugins/jquery.hoverIntent.min.js?ver=6.9.4"></script>
 <script src="/wp-content/themes/mediclinic/assets/js/modules/plugins/fluidvids.min.js?ver=6.9.4"></script>
+<script src="/wp-content/themes/mediclinic/assets/js/modules/plugins/jquery.prettyPhoto.js?ver=6.9.4"></script>
 <script src="/wp-content/themes/mediclinic/assets/js/modules/plugins/perfect-scrollbar.jquery.min.js?ver=6.9.4"></script>
 <script src="/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=4.2.17"></script>
 <script>var mkdfGlobalVars={{"vars":{{"mkdfAddForAdminBar":0,"mkdfElementAppearAmount":-100,"mkdfAjaxUrl":"/wp-admin/admin-ajax.php","mkdfStickyHeaderHeight":0,"mkdfStickyHeaderTransparencyHeight":70,"mkdfTopBarHeight":46,"mkdfLogoAreaHeight":0,"mkdfMenuAreaHeight":90,"mkdfMobileHeaderHeight":70}}}};var mkdfPerPageVars={{"vars":{{"mkdfStickyScrollAmount":0,"mkdfHeaderTransparencyHeight":0}}}};</script>
