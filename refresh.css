@@ -818,3 +818,20 @@ body { background-color: #fff !important; background-image: none !important; }
 .single-post .mkdf-page-content-holder a {
   color: #005da8 !important;
 }
+
+/* Force readable text color in all condition/content page body copy */
+.mkdf-page-content-holder p,
+.mkdf-page-content-holder li,
+.mkdf-page-content-holder h2,
+.mkdf-page-content-holder h3,
+.mkdf-page-content-holder h4 {
+  color: #2c2c2c !important;
+}
+.mkdf-page-content-holder a {
+  color: #005da8 !important;
+}
+/* Also cover the CWT schedule section and any custom content wrappers */
+.cwt-grid ~ div p,
+.cwt-grid ~ div h3 {
+  color: #2c2c2c !important;
+}
