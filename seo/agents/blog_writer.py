@@ -136,11 +136,8 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 </nav>
 <p style="color:#888;font-size:0.9em;">By Dr. Tamara Zach MD &mdash; {pub_date_display}</p>
 {body}
-<hr style="margin:2em 0;">
-<div style="background:#f8f4f2;padding:1.5em;border-left:4px solid #de7f68;">
-  <h3 style="margin-top:0;">Schedule an Appointment</h3>
-  <p>Questions about your child's neurological health? Dr. Tamara Zach MD at Rose Medical Pavilion is here to help. Call <strong><a href="tel:+16232577673">(623) 257-ROSE (7673)</a></strong> or <a href="/schedule-online/">schedule online</a>.</p>
-</div>
+<h3>Schedule an Appointment</h3>
+<p>Questions about your child's neurological health? Dr. Tamara Zach MD at Rose Medical Pavilion is here to help. Call <strong><a href="tel:+16232577673">(623) 257-ROSE (7673)</a></strong> or <a href="/schedule-online/">schedule online</a>.</p>
 </div></div>
 </div></div>
 </div></div>
