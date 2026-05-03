@@ -79,13 +79,15 @@ DATAFORSEO_PASSWORD = os.environ.get("DATAFORSEO_PASSWORD", "")
 # Key terms to track for competitor snapshot
 COMPETITOR_KEYWORDS = [
     "pediatric neurologist phoenix",
-    "pediatric epilepsy phoenix",
-    "child neurologist phoenix az",
+    "pediatric neurology phoenix az",
+    "child neurologist phoenix",
+    "pediatric epilepsy specialist phoenix",
+    "pediatric headache doctor phoenix",
+    "adhd specialist children phoenix",
     "pediatric neurology scottsdale",
     "children's neurologist arizona",
-    "pediatric headache specialist phoenix",
-    "adhd specialist children phoenix az",
-    "epilepsy doctor children phoenix",
+    "pediatric neurologist near me phoenix",
+    "rose medical pavilion phoenix",
 ]
 
 # Competitors to watch for in results (domain fragments, lowercase)
@@ -96,6 +98,7 @@ COMPETITOR_DOMAINS = [
     "dignityhealth.org",
     "honorhealth.com",
     "azbrainandspine.com",
+    "childrenshospital.org",
 ]
 
 # ---------------------------------------------------------------------------
@@ -680,18 +683,25 @@ def build_seo_opportunities(q_cur):
     </div>"""
 
 
+def _strip_domain(url):
+    """Return just the path portion of a URL."""
+    import re
+    path = re.sub(r'^https?://[^/]+', '', url) or "/"
+    return path
+
 def build_top_pages_ga4(p_cur, sources):
-    """Top pages from GSC by clicks, with session source breakdown."""
+    """Top pages from GSC by clicks."""
     rows_html = ""
     for r in p_cur:
-        page   = r["keys"][0].replace(GSC_PROPERTY, "") or "/"
-        clicks = r.get("clicks", 0)
-        impr   = r.get("impressions", 0)
-        pos    = r.get("position", 0)
-        display = page if len(page) < 60 else page[:57] + "…"
+        full_url = r["keys"][0]
+        page     = _strip_domain(full_url)
+        clicks   = r.get("clicks", 0)
+        impr     = r.get("impressions", 0)
+        pos      = r.get("position", 0)
+        display  = page if len(page) < 55 else page[:52] + "…"
         rows_html += f"""
         <tr>
-          <td><a href="https://rosemedicalpavilion.com{page}" title="{page}">{display}</a></td>
+          <td><a href="{full_url}" title="{page}">{display}</a></td>
           <td style="text-align:center">{_num(clicks)}</td>
           <td style="text-align:center">{_num(impr)}</td>
           <td style="text-align:center">{_pos(pos)}</td>

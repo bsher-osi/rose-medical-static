@@ -28,12 +28,17 @@ PHONE_LINK    = "tel:+16232577673"
 
 def verify_recaptcha(token):
     if not token:
+        app.logger.warning("reCAPTCHA: no token submitted")
         return False
     data = urllib.parse.urlencode({"secret": RECAPTCHA_SECRET, "response": token}).encode()
     try:
         with urllib.request.urlopen("https://www.google.com/recaptcha/api/siteverify", data, timeout=5) as r:
             result = json.loads(r.read())
-        return result.get("success") and result.get("score", 0) >= 0.5
+        score   = result.get("score", -1)
+        success = result.get("success", False)
+        action  = result.get("action", "?")
+        app.logger.info(f"reCAPTCHA: success={success} score={score} action={action} errors={result.get('error-codes','')}")
+        return success and score >= 0.3
     except Exception as e:
         app.logger.error(f"reCAPTCHA verify error: {e}")
         return True  # fail open so real patients are never blocked
@@ -74,6 +79,7 @@ Message:
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
         server.login(SMTP_USER, SMTP_PASS)
         server.sendmail(FROM_ADDR, TO_EMAIL, msg.as_string())
+    app.logger.info(f"Notification sent to {TO_EMAIL} for submission from {email}")
 
     # Confirmation email to submitter
     confirm = MIMEMultipart("alternative")
@@ -112,6 +118,7 @@ If you need immediate assistance, please call us at (623) 257-ROSE (7673).
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
         server.login(SMTP_USER, SMTP_PASS)
         server.sendmail(FROM_ADDR, [email], confirm.as_string())
+    app.logger.info(f"Confirmation sent to {email}")
 
 
 @app.route("/contact", methods=["POST"])
