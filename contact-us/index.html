@@ -1031,8 +1031,22 @@ End of comment */
         <label for="cf-message">Message *</label>
         <textarea id="cf-message" name="message" required placeholder="How can we help?"></textarea>
       </div>
+      <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
       <button type="submit" class="rose-submit-btn">Send Message</button>
     </form>
+<script src="https://www.google.com/recaptcha/api.js?render=6LcPodYsAAAAAJ8XJyrg-yQRaRM1EOlgpt5xSUus" async></script>
+<script>
+document.querySelector('.rose-contact-form form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  grecaptcha.ready(function() {
+    grecaptcha.execute('6LcPodYsAAAAAJ8XJyrg-yQRaRM1EOlgpt5xSUus', {action: 'contact'}).then(function(token) {
+      document.getElementById('g-recaptcha-response').value = token;
+      form.submit();
+    });
+  });
+});
+</script>
   </div>
 </div>
 														</div>

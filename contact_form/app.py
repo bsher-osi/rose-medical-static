@@ -4,8 +4,7 @@ Contact form handler for Rose Medical Pavilion.
 Runs as a Flask app on port 5001, proxied by nginx at /contact.
 """
 
-import os
-import smtplib
+import os, smtplib, urllib.request, urllib.parse, json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask import Flask, request, jsonify, redirect
@@ -18,10 +17,26 @@ SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 SMTP_USER = os.environ["SMTP_USER"]
 SMTP_PASS = os.environ["SMTP_PASS"]
-TO_EMAIL  = "info@rosemedicalpavilion.com"
+TO_EMAIL   = "info@rosemedicalpavilion.com"
 FROM_ADDR  = "benjamin@rosemedicalpavilion.com"
 FROM_EMAIL = "Rose Medical Pavilion <benjamin@rosemedicalpavilion.com>"
 REPLY_TO   = "info@rosemedicalpavilion.com"
+RECAPTCHA_SECRET = os.environ.get("RECAPTCHA_SECRET", "6LcPodYsAAAAAPE0CkukJDnmIj7ZVThhm-jW2FEP")
+PHONE_DISPLAY = "(623) 257-ROSE (7673)"
+PHONE_LINK    = "tel:+16232577673"
+
+
+def verify_recaptcha(token):
+    if not token:
+        return False
+    data = urllib.parse.urlencode({"secret": RECAPTCHA_SECRET, "response": token}).encode()
+    try:
+        with urllib.request.urlopen("https://www.google.com/recaptcha/api/siteverify", data, timeout=5) as r:
+            result = json.loads(r.read())
+        return result.get("success") and result.get("score", 0) >= 0.5
+    except Exception as e:
+        app.logger.error(f"reCAPTCHA verify error: {e}")
+        return True  # fail open so real patients are never blocked
 
 
 def send_email(name, email, phone, message):
@@ -101,9 +116,15 @@ If you need immediate assistance, please call us at (623) 257-ROSE (7673).
 
 @app.route("/contact", methods=["POST"])
 def contact():
-    # Honeypot — bots fill this field, humans don't
+    # Honeypot
     if request.form.get("website"):
         return redirect("/?success=1")
+
+    # reCAPTCHA v3 — silent drop on failure
+    token = request.form.get("g-recaptcha-response", "")
+    if not verify_recaptcha(token):
+        app.logger.warning("reCAPTCHA failed on /contact — bot dropped")
+        return redirect("/contact-us/?success=1")
 
     name    = request.form.get("name", "").strip()
     email   = request.form.get("email", "").strip()
@@ -130,6 +151,12 @@ def contact():
 
 @app.route("/refer", methods=["POST"])
 def refer():
+    # reCAPTCHA v3
+    token = request.form.get("g-recaptcha-response", "")
+    if not verify_recaptcha(token):
+        app.logger.warning("reCAPTCHA failed on /refer — bot dropped")
+        return redirect("/refer-a-patient/?success=1")
+
     referrer_name  = request.form.get("referrer-name", "").strip()
     referrer_phone = request.form.get("referrer-phone", "").strip()
     referrer_email = request.form.get("email-576", "").strip()
