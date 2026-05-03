@@ -45,15 +45,20 @@ from email.mime.text import MIMEText
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT   = os.path.abspath(os.path.join(SCRIPT_DIR, "../.."))
 
-# Credential file: single shared SA or two separate ones
+# GA4 service account
 _SA_JSON = os.environ.get(
     "GOOGLE_SERVICE_ACCOUNT_JSON",
     os.path.join(SCRIPT_DIR, "../credentials/ga4-service-account.json")
 )
-GSC_CREDS_PATH = os.environ.get("GSC_SERVICE_ACCOUNT_JSON", _SA_JSON)
 GA4_CREDS_PATH = os.environ.get("GA4_SERVICE_ACCOUNT_JSON", _SA_JSON)
 
-GSC_PROPERTY   = os.environ.get("GSC_PROPERTY", "https://rosemedicalpavilion.com")
+# GSC OAuth2 refresh token (owner account — required for Search Console access)
+GSC_TOKEN_PATH    = os.path.join(SCRIPT_DIR, "../credentials/gsc_token.json")
+GSC_CLIENT_ID     = os.environ.get("GSC_CLIENT_ID", "")
+GSC_CLIENT_SECRET = os.environ.get("GSC_CLIENT_SECRET", "")
+GSC_REFRESH_TOKEN = os.environ.get("GSC_REFRESH_TOKEN", "")
+
+GSC_PROPERTY   = os.environ.get("GSC_PROPERTY", "sc-domain:rosemedicalpavilion.com")
 GA4_PROPERTY   = os.environ.get("GA4_PROPERTY_ID", "properties/534869539")
 
 SMTP_HOST = "smtp.gmail.com"
@@ -129,9 +134,32 @@ def _num(val):
 
 def _gsc_service():
     from googleapiclient.discovery import build
-    from google.oauth2.service_account import Credentials
-    creds = Credentials.from_service_account_file(
-        GSC_CREDS_PATH,
+    from google.oauth2.credentials import Credentials
+
+    # Prefer env vars, fall back to saved token file
+    client_id     = GSC_CLIENT_ID
+    client_secret = GSC_CLIENT_SECRET
+    refresh_token = GSC_REFRESH_TOKEN
+
+    if not (client_id and client_secret and refresh_token):
+        if os.path.exists(GSC_TOKEN_PATH):
+            with open(GSC_TOKEN_PATH) as f:
+                tok = json.load(f)
+            client_id     = tok.get("client_id", "")
+            client_secret = tok.get("client_secret", "")
+            refresh_token = tok.get("refresh_token", "")
+
+    if not (client_id and client_secret and refresh_token):
+        raise RuntimeError(
+            "GSC OAuth credentials not found. Run seo/agents/gsc_auth_setup.py first."
+        )
+
+    creds = Credentials(
+        token=None,
+        refresh_token=refresh_token,
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=client_id,
+        client_secret=client_secret,
         scopes=["https://www.googleapis.com/auth/webmasters.readonly"],
     )
     return build("searchconsole", "v1", credentials=creds)
