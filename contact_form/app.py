@@ -18,6 +18,15 @@ SMTP_PORT = 465
 SMTP_USER = os.environ["SMTP_USER"]
 SMTP_PASS = os.environ["SMTP_PASS"]
 TO_EMAIL   = "info@rosemedicalpavilion.com"
+CC_EMAIL   = "benjaminsher@gmail.com"
+NOTIFY_LIST = [
+    "benjaminsher@gmail.com",
+    "benjamin@rosemedicalpavilion.com",
+    "tz@rosemedicalpavilion.com",
+    "cristina.caro@rosemedicalpavilion.com",
+    "jbrothers@rosemedicalpavilion.com",
+    "sdesiderioramirez@rosemedicalpavilion.com",
+]
 FROM_ADDR  = "benjamin@rosemedicalpavilion.com"
 FROM_EMAIL = "Rose Medical Pavilion <benjamin@rosemedicalpavilion.com>"
 REPLY_TO   = "info@rosemedicalpavilion.com"
@@ -48,7 +57,7 @@ def send_email(name, email, phone, message):
     msg = MIMEMultipart("alternative")
     msg["Subject"] = f"New Contact Form Submission from {name}"
     msg["From"]    = FROM_EMAIL
-    msg["To"]      = TO_EMAIL
+    msg["To"]      = ", ".join(NOTIFY_LIST)
     msg["Reply-To"] = f"{name} <{email}>"
 
     body = f"""\
@@ -78,8 +87,8 @@ Message:
 
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
         server.login(SMTP_USER, SMTP_PASS)
-        server.sendmail(FROM_ADDR, TO_EMAIL, msg.as_string())
-    app.logger.info(f"Notification sent to {TO_EMAIL} for submission from {email}")
+        server.sendmail(FROM_ADDR, NOTIFY_LIST, msg.as_string())
+    app.logger.info(f"Notification sent to {NOTIFY_LIST} for submission from {email}")
 
     # Confirmation email to submitter
     confirm = MIMEMultipart("alternative")
@@ -181,7 +190,7 @@ def refer():
     msg = MIMEMultipart("alternative")
     msg["Subject"] = f"New Patient Referral from {referrer_name}"
     msg["From"]    = FROM_EMAIL
-    msg["To"]      = TO_EMAIL
+    msg["To"]      = ", ".join(NOTIFY_LIST)
     msg["Reply-To"] = f"{referrer_name} <{referrer_email}>"
 
     body = f"""\
@@ -229,7 +238,7 @@ CHIEF COMPLAINT
         msg.attach(MIMEText(html, "html"))
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
             server.login(SMTP_USER, SMTP_PASS)
-            server.sendmail(FROM_ADDR, TO_EMAIL, msg.as_string())
+            server.sendmail(FROM_ADDR, NOTIFY_LIST, msg.as_string())
     except Exception as e:
         app.logger.error(f"Referral email failed: {e}")
         return redirect("/refer-a-patient/?error=send")

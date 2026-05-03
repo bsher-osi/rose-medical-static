@@ -68,7 +68,7 @@ SMTP_PASS = os.environ.get("SMTP_PASS", "")
 
 REPORT_TO = [
     a.strip()
-    for a in os.environ.get("REPORT_TO", "benjaminsher@gmail.com").split(",")
+    for a in os.environ.get("REPORT_TO", "benjaminsher@gmail.com,tz@rosemedicalpavilion.com").split(",")
     if a.strip()
 ]
 
