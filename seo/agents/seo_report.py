@@ -401,12 +401,13 @@ def fetch_keyword_rankings_gsc(keywords, days=28):
     end_pri   = start_cur - timedelta(days=1)
     start_pri = end_pri - timedelta(days=days - 1)
 
-    def pull(start, end, limit=5000):
+    def pull(start, end, limit=2500):
         body = {
             "startDate":  str(start),
             "endDate":    str(end),
             "dimensions": ["query"],
             "rowLimit":   limit,
+            "orderBy":    [{"fieldName": "impressions", "sortOrder": "DESCENDING"}],
         }
         return {
             r["keys"][0].lower(): r
@@ -501,8 +502,7 @@ WHITE  = "#f0f0f0"
 
 CSS = f"""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-  body {{ font-family: 'Inter', Arial, sans-serif; background: {DARK};
+  body {{ font-family: -apple-system, 'Segoe UI', Arial, sans-serif; background: {DARK};
          margin: 0; padding: 24px 12px; color: {WHITE}; }}
   .wrapper {{ max-width: 760px; margin: auto; background: {CARD};
               border-radius: 10px; overflow: hidden;
