@@ -5,3 +5,4 @@ seo/credentials/
 __pycache__/
 *.pyc
 .env
+seo/credentials/

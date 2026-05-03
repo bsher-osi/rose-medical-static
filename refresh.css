@@ -835,3 +835,11 @@ body { background-color: #fff !important; background-image: none !important; }
 .cwt-grid ~ div h3 {
   color: #2c2c2c !important;
 }
+
+/* Hide duplicate email text in the icon slot of the top bar.
+   The actual email icon is rendered via CSS class (ion-ios-email),
+   not text, so font-size:0 removes the text without killing the icon. */
+.mkdf-icon-info-icon a {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
