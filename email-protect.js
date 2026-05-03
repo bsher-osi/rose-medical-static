@@ -3,13 +3,10 @@
   var u = 'info', d = 'rosemedicalpavilion.com';
   var addr = u + '@' + d;
   var href = 'mailto:' + addr;
-  // Text + link: show email address
-  document.querySelectorAll('.rose-email').forEach(function(el){
+  document.querySelectorAll('.rose-email, .rose-email-icon').forEach(function(el){
     if(el.tagName === 'A') el.href = href;
-    el.textContent = addr;
-  });
-  // Icon slot: fix href only, don't write text
-  document.querySelectorAll('.rose-email-icon').forEach(function(el){
-    if(el.tagName === 'A') el.href = href;
+    // Don't write text into the icon slot (mkdf-icon-info-icon div) — only the text slot
+    var inIconSlot = el.closest ? el.closest('.mkdf-icon-info-icon') : false;
+    if(!inIconSlot) el.textContent = addr;
   });
 })();
