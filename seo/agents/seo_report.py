@@ -242,18 +242,46 @@ def fetch_gsc():
 # 2. GA4
 # ---------------------------------------------------------------------------
 
+def _ga4_creds():
+    """Return GA4 credentials — OAuth token preferred, SA fallback."""
+    from google.oauth2.credentials import Credentials as OAuthCreds
+    from google.oauth2.service_account import Credentials as SACreds
+
+    # Try OAuth token first (same token used for GSC)
+    client_id     = GSC_CLIENT_ID
+    client_secret = GSC_CLIENT_SECRET
+    refresh_token = GSC_REFRESH_TOKEN
+    if not (client_id and client_secret and refresh_token) and os.path.exists(GSC_TOKEN_PATH):
+        with open(GSC_TOKEN_PATH) as f:
+            tok = json.load(f)
+        client_id     = tok.get("client_id", "")
+        client_secret = tok.get("client_secret", "")
+        refresh_token = tok.get("refresh_token", "")
+
+    if client_id and client_secret and refresh_token:
+        return OAuthCreds(
+            token=None,
+            refresh_token=refresh_token,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id,
+            client_secret=client_secret,
+            scopes=["https://www.googleapis.com/auth/analytics.readonly"],
+        )
+
+    # Fall back to service account
+    return SACreds.from_service_account_file(
+        GA4_CREDS_PATH,
+        scopes=["https://www.googleapis.com/auth/analytics.readonly"],
+    )
+
+
 def fetch_ga4():
     from google.analytics.data_v1beta import BetaAnalyticsDataClient
     from google.analytics.data_v1beta.types import (
         DateRange, Dimension, Metric, RunReportRequest, OrderBy,
     )
-    from google.oauth2.service_account import Credentials
 
-    creds = Credentials.from_service_account_file(
-        GA4_CREDS_PATH,
-        scopes=["https://www.googleapis.com/auth/analytics.readonly"],
-    )
-    client = BetaAnalyticsDataClient(credentials=creds)
+    client = BetaAnalyticsDataClient(credentials=_ga4_creds())
 
     end   = date.today()
     start = end - timedelta(days=6)  # 7-day window
@@ -361,47 +389,100 @@ def _rank_via_dataforseo(keyword):
     return results
 
 
+def fetch_keyword_rankings_gsc(keywords, days=28):
+    """
+    Pull our own positions for specific keywords from GSC (free, no SERP API).
+    Returns dict: { keyword_lower: {clicks, impressions, position, position_prior} }
+    Uses a 28-day window for better coverage of low-volume keywords.
+    """
+    service   = _gsc_service()
+    end_cur   = date.today() - timedelta(days=3)
+    start_cur = end_cur - timedelta(days=days - 1)
+    end_pri   = start_cur - timedelta(days=1)
+    start_pri = end_pri - timedelta(days=days - 1)
+
+    def pull(start, end, limit=5000):
+        body = {
+            "startDate":  str(start),
+            "endDate":    str(end),
+            "dimensions": ["query"],
+            "rowLimit":   limit,
+        }
+        return {
+            r["keys"][0].lower(): r
+            for r in service.searchanalytics().query(
+                siteUrl=GSC_PROPERTY, body=body
+            ).execute().get("rows", [])
+        }
+
+    cur_map = pull(start_cur, end_cur)
+    pri_map = pull(start_pri, end_pri)
+
+    result = {}
+    for kw in keywords:
+        k = kw.lower()
+        cur = cur_map.get(k, {})
+        pri = pri_map.get(k, {})
+        result[k] = {
+            "clicks":         int(cur.get("clicks", 0)),
+            "impressions":    int(cur.get("impressions", 0)),
+            "position":       cur.get("position", 0),
+            "position_prior": pri.get("position", 0),
+        }
+    return result
+
+
 def fetch_competitor_rankings():
     """
-    Returns list of dicts:
-      { keyword, our_rank, results: [(pos, domain), ...] }
-
-    Uses SerpAPI if SERPAPI_KEY is set, DataForSEO if those creds are set,
-    otherwise returns placeholder data.
+    Returns list of dicts with our GSC rankings for each tracked keyword.
+    If a SERP API key is configured, also fetches competitor positions.
     """
-    rows = []
     use_serpapi    = bool(SERPAPI_KEY)
     use_dataforseo = bool(DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD)
 
+    # Always pull our own positions from GSC
+    try:
+        gsc_data = fetch_keyword_rankings_gsc(COMPETITOR_KEYWORDS)
+    except Exception as e:
+        gsc_data = {}
+        print(f"  [WARN] GSC keyword pull failed: {e}")
+
+    rows = []
     for kw in COMPETITOR_KEYWORDS:
+        k    = kw.lower()
+        gsc  = gsc_data.get(k, {})
+        pos  = gsc.get("position", 0)
+        pos_p = gsc.get("position_prior", 0)
+
+        our_rank = round(pos, 1) if pos > 0 else "—"
+        ww = "—"
+        if pos > 0 and pos_p > 0:
+            delta = pos - pos_p
+            if abs(delta) >= 0.5:
+                ww = f"{delta:+.1f}"
+                # green if improved (lower number), red if dropped
+            else:
+                ww = "="
+
         try:
             if use_serpapi:
-                results = _rank_via_serpapi(kw)
+                serp = _rank_via_serpapi(kw)
             elif use_dataforseo:
-                results = _rank_via_dataforseo(kw)
+                serp = _rank_via_dataforseo(kw)
             else:
-                results = []  # placeholder mode
-
-            our_rank = "—"
-            for pos, domain in results:
-                if "rosemedicalpavilion.com" in domain:
-                    our_rank = pos
-                    break
-
-            rows.append({
-                "keyword":  kw,
-                "our_rank": our_rank,
-                "results":  results[:5],  # top 5 for display
-                "live":     use_serpapi or use_dataforseo,
-            })
+                serp = []
         except Exception as exc:
-            rows.append({
-                "keyword":  kw,
-                "our_rank": "error",
-                "results":  [],
-                "live":     False,
-                "error":    str(exc),
-            })
+            serp = []
+
+        rows.append({
+            "keyword":     kw,
+            "our_rank":    our_rank,
+            "ww":          ww,
+            "clicks":      gsc.get("clicks", 0),
+            "impressions": gsc.get("impressions", 0),
+            "results":     serp[:5],
+            "live":        True,  # always live via GSC
+        })
 
     return rows
 
@@ -568,12 +649,14 @@ def build_competitive_position(comp_rows):
     t3 = t10 = t20 = no_data = 0
     for r in comp_rows:
         rk = r.get("our_rank")
-        if not has_live or rk == "—" or rk == "error":
+        if rk == "—" or rk == "error" or rk == 0:
             no_data += 1
-        elif isinstance(rk, int):
+        elif isinstance(rk, (int, float)):
             if rk <= 3:   t3 += 1
             if rk <= 10:  t10 += 1
             if rk <= 20:  t20 += 1
+        else:
+            no_data += 1
 
     summary = (
         f'Competitors Ahead = other sites ranking above you. '
@@ -589,18 +672,19 @@ def build_competitive_position(comp_rows):
         clicks  = r.get("clicks", "")
         impr    = r.get("impressions", "")
 
-        # Competitors ahead = how many results ranked above us
+        # Competitors ahead = estimated results ranked above us
         ahead = "—"
-        if isinstance(rk, int) and r.get("results"):
-            ahead = str(rk - 1)
+        if isinstance(rk, (int, float)) and rk > 0:
+            ahead = str(max(0, int(rk) - 1))
 
-        if isinstance(rk, int):
+        if isinstance(rk, (int, float)) and rk > 0:
+            rk_display = f"{rk:.1f}"
             if rk <= 3:
-                pos_html = f'<span class="badge-t3">{rk}</span>'
+                pos_html = f'<span class="badge-t3">{rk_display}</span>'
             elif rk <= 10:
-                pos_html = f'<span class="badge-t10">{rk}</span>'
+                pos_html = f'<span class="badge-t10">{rk_display}</span>'
             else:
-                pos_html = str(rk)
+                pos_html = rk_display
         elif has_live:
             pos_html = f'<span class="nodata">No data</span>'
         else:
@@ -617,12 +701,13 @@ def build_competitive_position(comp_rows):
           <td style="text-align:center;color:#888">{_num(impr) if impr else "—"}</td>
         </tr>"""
 
-    if not has_live:
-        placeholder = f"""
+    # Only show SERP API note if no live data at all and no GSC positions either
+    has_any_pos = any(isinstance(r.get("our_rank"), float) for r in comp_rows)
+    if not has_live and not has_any_pos:
+        placeholder = """
         <div class="placeholder" style="margin-top:12px">
-          <strong>No SERP API key configured.</strong> Set
-          <code>SERPAPI_KEY</code> or <code>DATAFORSEO_LOGIN</code> +
-          <code>DATAFORSEO_PASSWORD</code> to enable live rankings.
+          Positions sourced from GSC (28-day avg). Add <code>SERPAPI_KEY</code>
+          to also show competitor rankings.
         </div>"""
     else:
         placeholder = ""
