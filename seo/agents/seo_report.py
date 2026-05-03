@@ -244,19 +244,19 @@ def fetch_ga4():
         )
         return client.run_report(req)
 
-    # Sessions by source / medium
+    # Sessions by source / medium (with new users per channel)
     sources = run(
         dimensions=["sessionSourceMedium"],
-        metrics=["sessions"],
+        metrics=["sessions", "newUsers"],
         order_metric="sessions",
         limit=20,
     )
 
-    # Overview — sessions, users, new users
+    # Overview — sessions, users, new users, pageviews, bounce, avg duration
     overview = run(
         dimensions=[],
-        metrics=["sessions", "totalUsers", "newUsers", "bounceRate",
-                 "averageSessionDuration"],
+        metrics=["sessions", "totalUsers", "newUsers", "screenPageViews",
+                 "bounceRate", "averageSessionDuration"],
     )
 
     return sources, overview, start, end
@@ -379,65 +379,81 @@ def fetch_competitor_rankings():
 # 4. HTML Report Builder
 # ---------------------------------------------------------------------------
 
-CSS = """
+GOLD   = "#c9a84c"
+DARK   = "#141414"
+CARD   = "#1e1e1e"
+CARD2  = "#252525"
+BORDER = "#2e2e2e"
+MUTED  = "#888"
+WHITE  = "#f0f0f0"
+
+CSS = f"""
 <style>
-  body { font-family: Arial, Helvetica, sans-serif; background: #f4f6f8;
-         margin: 0; padding: 20px; color: #333; }
-  .wrapper { max-width: 780px; margin: auto; background: #fff;
-             border-radius: 8px; overflow: hidden;
-             box-shadow: 0 2px 8px rgba(0,0,0,.12); }
-  .header  { background: #1a3d6e; color: #fff; padding: 24px 32px; }
-  .header h1 { margin: 0 0 4px; font-size: 22px; }
-  .header p  { margin: 0; font-size: 13px; opacity: .8; }
-  .section   { padding: 24px 32px; border-bottom: 1px solid #e8ecf0; }
-  .section:last-child { border-bottom: none; }
-  .section h2 { margin: 0 0 16px; font-size: 17px; color: #1a3d6e;
-                border-left: 4px solid #2b7de9; padding-left: 10px; }
-  table  { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th     { background: #f0f4f9; text-align: left; padding: 8px 10px;
-           border-bottom: 2px solid #d0d8e4; white-space: nowrap; }
-  td     { padding: 7px 10px; border-bottom: 1px solid #eef0f3;
-           vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  .up    { color: #1a8a3a; font-weight: bold; }
-  .down  { color: #c0392b; font-weight: bold; }
-  .flat  { color: #888; }
-  .kpi-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
-  .kpi  { flex: 1; min-width: 130px; background: #f0f4f9;
-          border-radius: 6px; padding: 14px 16px; }
-  .kpi .label { font-size: 11px; text-transform: uppercase;
-                letter-spacing: .05em; color: #666; }
-  .kpi .value { font-size: 24px; font-weight: bold; color: #1a3d6e;
-                margin: 4px 0 2px; }
-  .kpi .delta { font-size: 12px; }
-  .badge-1  { background: #fff3cd; color: #7d5a00;
-              border-radius: 12px; padding: 2px 8px; font-size: 11px; }
-  .badge-top { background: #d4edda; color: #155724;
-               border-radius: 12px; padding: 2px 8px; font-size: 11px; }
-  .err  { color: #c0392b; }
-  pre   { background: #f7f7f7; padding: 10px; border-radius: 4px;
-          font-size: 11px; overflow-x: auto; white-space: pre-wrap; }
-  .placeholder { background: #fff8e1; border: 1px dashed #f0ad4e;
-                 border-radius: 6px; padding: 14px 16px; font-size: 13px; }
-  .footer { background: #f0f4f9; padding: 14px 32px; font-size: 11px;
-            color: #888; text-align: center; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  body {{ font-family: 'Inter', Arial, sans-serif; background: {DARK};
+         margin: 0; padding: 24px 12px; color: {WHITE}; }}
+  .wrapper {{ max-width: 760px; margin: auto; background: {CARD};
+              border-radius: 10px; overflow: hidden;
+              border: 1px solid {BORDER}; }}
+  .header  {{ padding: 28px 32px 22px; border-bottom: 1px solid {BORDER}; }}
+  .header .eyebrow {{ font-size: 11px; font-weight: 600; letter-spacing: .12em;
+                      text-transform: uppercase; color: {GOLD}; margin-bottom: 6px; }}
+  .header h1 {{ margin: 0 0 4px; font-size: 26px; font-weight: 700; color: #fff; }}
+  .header .sub {{ font-size: 13px; color: {MUTED}; margin: 0; }}
+  .section   {{ padding: 22px 32px; border-bottom: 1px solid {BORDER}; }}
+  .section:last-child {{ border-bottom: none; }}
+  .section h2 {{ margin: 0 0 14px; font-size: 11px; font-weight: 600;
+                 letter-spacing: .1em; text-transform: uppercase; color: {GOLD}; }}
+  .opp-note {{ font-size: 12px; color: {MUTED}; margin: -8px 0 14px; }}
+  table  {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
+  th     {{ text-align: left; padding: 7px 10px; font-size: 11px;
+            font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+            color: {MUTED}; border-bottom: 1px solid {BORDER}; white-space: nowrap; }}
+  td     {{ padding: 8px 10px; border-bottom: 1px solid {BORDER};
+            vertical-align: middle; color: {WHITE}; }}
+  tr:last-child td {{ border-bottom: none; }}
+  tr:hover td {{ background: rgba(255,255,255,.03); }}
+  a  {{ color: {GOLD}; text-decoration: none; }}
+  .up   {{ color: #4caf7d; font-weight: 600; }}
+  .down {{ color: #e05c5c; font-weight: 600; }}
+  .flat {{ color: {MUTED}; }}
+  .nodata {{ color: {MUTED}; font-style: italic; }}
+  .kpi-grid {{ display: flex; gap: 10px; flex-wrap: wrap; }}
+  .kpi  {{ flex: 1; min-width: 120px; background: {CARD2};
+           border: 1px solid {BORDER}; border-radius: 8px; padding: 14px 16px; }}
+  .kpi .label {{ font-size: 10px; font-weight: 600; text-transform: uppercase;
+                 letter-spacing: .1em; color: {MUTED}; }}
+  .kpi .value {{ font-size: 28px; font-weight: 700; color: {GOLD};
+                 margin: 6px 0 2px; line-height: 1; }}
+  .kpi .delta {{ font-size: 11px; color: {MUTED}; }}
+  .comp-summary {{ font-size: 12px; color: {MUTED}; margin-bottom: 14px; }}
+  .comp-summary b {{ color: {WHITE}; }}
+  .badge-t3  {{ background: #2a4a2e; color: #4caf7d;
+                border-radius: 10px; padding: 1px 7px; font-size: 11px; }}
+  .badge-t10 {{ background: #3a3a1e; color: {GOLD};
+                border-radius: 10px; padding: 1px 7px; font-size: 11px; }}
+  .err  {{ color: #e05c5c; }}
+  pre   {{ background: #111; padding: 10px; border-radius: 4px;
+           font-size: 11px; overflow-x: auto; white-space: pre-wrap;
+           color: #aaa; border: 1px solid {BORDER}; }}
+  .placeholder {{ background: #1e1a10; border: 1px dashed #5a4a20;
+                  border-radius: 6px; padding: 14px 16px; font-size: 13px;
+                  color: #b89a4a; }}
+  .footer {{ padding: 14px 32px; font-size: 11px; color: {MUTED};
+             text-align: center; border-top: 1px solid {BORDER}; }}
 </style>
 """
 
 
 def _delta_html(cur, pri, higher_is_better=True, fmt=None):
-    """Return coloured delta string."""
     if pri == 0:
-        return '<span class="flat">—</span>'
+        return '<span class="flat">-</span>'
     diff = cur - pri
     if fmt == "pct":
         label = f"{diff * 100:+.1f}pp"
     elif fmt == "pos":
-        # position: lower is better, so flip sign for colour
         label = f"{diff:+.1f}"
-        higher_is_better = False  # already accounted for below
-        # For position, lower number = better, so diff<0 is good
-        is_good = diff < 0 if not higher_is_better else diff > 0
+        is_good = diff < 0  # lower position = better
         cls = "up" if is_good else ("down" if diff != 0 else "flat")
         return f'<span class="{cls}">{label}</span>'
     else:
@@ -448,103 +464,220 @@ def _delta_html(cur, pri, higher_is_better=True, fmt=None):
     return f'<span class="{cls}">{label}</span>'
 
 
-def build_traffic_summary(cur, pri, start_cur, end_cur, start_pri, end_pri):
-    def kpi(label, c_val, p_val, higher_is_better=True, fmt=None):
-        if fmt == "pct":
-            display = _pct(c_val)
-        elif fmt == "pos":
-            display = _pos(c_val)
-        else:
-            display = _num(c_val)
-        delta = _delta_html(float(c_val), float(p_val), higher_is_better, fmt)
-        return f"""
-        <div class="kpi">
-          <div class="label">{label}</div>
-          <div class="value">{display}</div>
-          <div class="delta">vs prior week: {delta}</div>
-        </div>"""
+def _kpi_box(label, value, sub="-"):
+    return f"""
+    <div class="kpi">
+      <div class="label">{label}</div>
+      <div class="value">{value}</div>
+      <div class="delta">{sub}</div>
+    </div>"""
+
+
+def build_ga4_section(overview, start, end):
+    # metrics order: sessions(0), totalUsers(1), newUsers(2), screenPageViews(3),
+    #                bounceRate(4), averageSessionDuration(5)
+    if not overview.rows:
+        sessions = new_users = pageviews = bounce = avg_fmt = "N/A"
+    else:
+        r  = overview.rows[0]
+        mv = lambda i: r.metric_values[i].value
+        sessions  = _num(mv(0))
+        new_users = _num(mv(2))
+        pageviews = _num(mv(3))
+        bounce    = f"{float(mv(4))*100:.0f}%"
+        avg_secs  = float(mv(5))
+        avg_fmt   = f"{int(avg_secs//60):02d}:{int(avg_secs%60):02d} avg"
 
     kpis = (
-        kpi("Clicks",         cur["clicks"],      pri["clicks"])
-        + kpi("Impressions",  cur["impressions"],  pri["impressions"])
-        + kpi("Avg CTR",      cur["ctr"],          pri["ctr"],          fmt="pct")
-        + kpi("Avg Position", cur["position"],     pri["position"],
-              higher_is_better=False, fmt="pos")
+        _kpi_box("Sessions",    sessions,  "-")
+        + _kpi_box("New Users", new_users, "-")
+        + _kpi_box("Page Views", pageviews, "-")
+        + _kpi_box("Bounce Rate", bounce,   avg_fmt)
     )
     return f"""
     <div class="section">
-      <h2>Traffic Summary
-        <span style="font-size:12px;font-weight:normal;color:#666;margin-left:8px;">
-          {start_cur} to {end_cur} vs {start_pri} to {end_pri}
-        </span>
-      </h2>
+      <h2>Traffic (GA4 7-Day)</h2>
       <div class="kpi-grid">{kpis}</div>
     </div>"""
 
 
-def build_top_queries(q_cur, q_pri_map):
-    rows_html = ""
-    for r in q_cur:
-        kw       = r["keys"][0]
-        clicks   = r.get("clicks", 0)
-        impr     = r.get("impressions", 0)
-        ctr      = r.get("ctr", 0)
-        pos      = r.get("position", 0)
-        pri      = q_pri_map.get(kw, {})
-        d_clicks = _delta_html(clicks, pri.get("clicks", 0))
-        d_pos    = _delta_html(pos, pri.get("position", 0),
-                               higher_is_better=False, fmt="pos")
-        rows_html += f"""
-        <tr>
-          <td>{kw}</td>
-          <td>{_num(clicks)}</td>
-          <td>{d_clicks}</td>
-          <td>{_num(impr)}</td>
-          <td>{_pct(ctr)}</td>
-          <td>{_pos(pos)} {d_pos}</td>
-        </tr>"""
+def build_gsc_kpis(cur, pri):
+    def fmt_val(v, fn):
+        return fn(v) if float(v) > 0 else "0"
+
+    def kpi_delta(label, c_val, p_val, higher_is_better=True, fmt=None):
+        if fmt == "pct":
+            display = _pct(c_val) if float(c_val) > 0 else "N/A"
+        elif fmt == "pos":
+            display = _pos(c_val) if float(c_val) > 0 else "N/A"
+        else:
+            display = _num(c_val)
+        delta = _delta_html(float(c_val), float(p_val), higher_is_better, fmt)
+        return _kpi_box(label, display, f"vs prior week: {delta}")
+
+    kpis = (
+        kpi_delta("Clicks",       cur["clicks"],      pri["clicks"])
+        + kpi_delta("Impressions", cur["impressions"], pri["impressions"])
+        + kpi_delta("CTR",         cur["ctr"],         pri["ctr"],         fmt="pct")
+        + kpi_delta("Avg Position", cur["position"],   pri["position"],
+                    higher_is_better=False, fmt="pos")
+    )
     return f"""
     <div class="section">
-      <h2>Top 10 Queries by Clicks</h2>
+      <h2>Search Visibility (GSC 7-Day)</h2>
+      <div class="kpi-grid">{kpis}</div>
+    </div>"""
+
+
+def build_competitive_position(comp_rows):
+    """Keyword table with Pos, W/W, Competitors Ahead, Clicks, Impressions."""
+    has_live = any(r.get("live") for r in comp_rows)
+
+    # Tally summary counts
+    t3 = t10 = t20 = no_data = 0
+    for r in comp_rows:
+        rk = r.get("our_rank")
+        if not has_live or rk == "—" or rk == "error":
+            no_data += 1
+        elif isinstance(rk, int):
+            if rk <= 3:   t3 += 1
+            if rk <= 10:  t10 += 1
+            if rk <= 20:  t20 += 1
+
+    summary = (
+        f'Competitors Ahead = other sites ranking above you. '
+        f'Top 3: <b>{t3}</b> &nbsp; Top 10: <b>{t10}</b> '
+        f'&nbsp; Top 20: <b>{t20}</b> &nbsp; No data: <b>{no_data}</b>'
+    )
+
+    rows_html = ""
+    for r in comp_rows:
+        kw      = r["keyword"]
+        rk      = r.get("our_rank", "—")
+        ww      = r.get("ww", "—")      # week-over-week position delta
+        clicks  = r.get("clicks", "")
+        impr    = r.get("impressions", "")
+
+        # Competitors ahead = how many results ranked above us
+        ahead = "—"
+        if isinstance(rk, int) and r.get("results"):
+            ahead = str(rk - 1)
+
+        if isinstance(rk, int):
+            if rk <= 3:
+                pos_html = f'<span class="badge-t3">{rk}</span>'
+            elif rk <= 10:
+                pos_html = f'<span class="badge-t10">{rk}</span>'
+            else:
+                pos_html = str(rk)
+        elif has_live:
+            pos_html = f'<span class="nodata">No data</span>'
+        else:
+            pos_html = f'<span class="nodata">No data</span>'
+
+        err = f'<br><small class="err">{r["error"]}</small>' if r.get("error") else ""
+        rows_html += f"""
+        <tr>
+          <td style="color:#ccc">{kw}</td>
+          <td style="text-align:center">{pos_html}{err}</td>
+          <td style="text-align:center;color:#888">{ww}</td>
+          <td style="text-align:center;color:#888">{ahead}</td>
+          <td style="text-align:center;color:#888">{_num(clicks) if clicks else "—"}</td>
+          <td style="text-align:center;color:#888">{_num(impr) if impr else "—"}</td>
+        </tr>"""
+
+    if not has_live:
+        placeholder = f"""
+        <div class="placeholder" style="margin-top:12px">
+          <strong>No SERP API key configured.</strong> Set
+          <code>SERPAPI_KEY</code> or <code>DATAFORSEO_LOGIN</code> +
+          <code>DATAFORSEO_PASSWORD</code> to enable live rankings.
+        </div>"""
+    else:
+        placeholder = ""
+
+    return f"""
+    <div class="section">
+      <h2>Competitive Position</h2>
+      <div class="comp-summary">{summary}</div>
       <table>
         <thead><tr>
-          <th>Query</th><th>Clicks</th><th>vs Prior</th>
-          <th>Impressions</th><th>CTR</th><th>Avg Position</th>
+          <th>Keyword</th>
+          <th style="text-align:center">Pos</th>
+          <th style="text-align:center">W/W</th>
+          <th style="text-align:center">Competitors Ahead</th>
+          <th style="text-align:center">Clicks</th>
+          <th style="text-align:center">Impr</th>
+        </tr></thead>
+        <tbody>{rows_html}</tbody>
+      </table>
+      {placeholder}
+    </div>"""
+
+
+def build_seo_opportunities(q_cur):
+    """Queries ranking top 20 with CTR < 4% — title/meta quick wins."""
+    opps = [
+        r for r in q_cur
+        if 0 < float(r.get("position", 99)) <= 20
+        and float(r.get("ctr", 0)) < 0.04
+        and int(r.get("impressions", 0)) > 0
+    ]
+    if not opps:
+        return ""
+
+    rows_html = ""
+    for r in opps:
+        rows_html += f"""
+        <tr>
+          <td style="color:#ccc">{r["keys"][0]}</td>
+          <td style="text-align:center">{_num(r.get("impressions",0))}</td>
+          <td style="text-align:center">{_pct(r.get("ctr",0))}</td>
+          <td style="text-align:center">{_pos(r.get("position",0))}</td>
+        </tr>"""
+
+    return f"""
+    <div class="section">
+      <h2>SEO Opportunities</h2>
+      <div class="opp-note">Ranking top 20 but CTR under 4% — better title/meta could double clicks.</div>
+      <table>
+        <thead><tr>
+          <th>Query</th>
+          <th style="text-align:center">Impressions</th>
+          <th style="text-align:center">CTR</th>
+          <th style="text-align:center">Position</th>
         </tr></thead>
         <tbody>{rows_html}</tbody>
       </table>
     </div>"""
 
 
-def build_top_pages(p_cur, p_pri_map):
+def build_top_pages_ga4(p_cur, sources):
+    """Top pages from GSC by clicks, with session source breakdown."""
     rows_html = ""
     for r in p_cur:
-        page     = r["keys"][0].replace(GSC_PROPERTY, "")
-        clicks   = r.get("clicks", 0)
-        impr     = r.get("impressions", 0)
-        ctr      = r.get("ctr", 0)
-        pos      = r.get("position", 0)
-        pri      = p_pri_map.get(r["keys"][0], {})
-        d_clicks = _delta_html(clicks, pri.get("clicks", 0))
-        d_pos    = _delta_html(pos, pri.get("position", 0),
-                               higher_is_better=False, fmt="pos")
-        display_page = page if len(page) < 55 else page[:52] + "…"
+        page   = r["keys"][0].replace(GSC_PROPERTY, "") or "/"
+        clicks = r.get("clicks", 0)
+        impr   = r.get("impressions", 0)
+        pos    = r.get("position", 0)
+        display = page if len(page) < 60 else page[:57] + "…"
         rows_html += f"""
         <tr>
-          <td title="{page}"><code style="font-size:11px">{display_page}</code></td>
-          <td>{_num(clicks)}</td>
-          <td>{d_clicks}</td>
-          <td>{_num(impr)}</td>
-          <td>{_pct(ctr)}</td>
-          <td>{_pos(pos)} {d_pos}</td>
+          <td><a href="https://rosemedicalpavilion.com{page}" title="{page}">{display}</a></td>
+          <td style="text-align:center">{_num(clicks)}</td>
+          <td style="text-align:center">{_num(impr)}</td>
+          <td style="text-align:center">{_pos(pos)}</td>
         </tr>"""
+
     return f"""
     <div class="section">
-      <h2>Top 10 Pages by Clicks</h2>
+      <h2>Top Pages</h2>
       <table>
         <thead><tr>
-          <th>Page</th><th>Clicks</th><th>vs Prior</th>
-          <th>Impressions</th><th>CTR</th><th>Avg Position</th>
+          <th>Page</th>
+          <th style="text-align:center">Clicks</th>
+          <th style="text-align:center">Impressions</th>
+          <th style="text-align:center">Avg Position</th>
         </tr></thead>
         <tbody>{rows_html}</tbody>
       </table>
@@ -552,130 +685,43 @@ def build_top_pages(p_cur, p_pri_map):
 
 
 def build_traffic_sources(sources, overview, start, end):
-    # overview totals
-    ov_html = ""
-    if overview.rows:
-        r = overview.rows[0]
-        mv = lambda i: r.metric_values[i].value
-        ov_html = f"""
-        <div class="kpi-grid" style="margin-bottom:20px">
-          <div class="kpi"><div class="label">Sessions</div>
-            <div class="value">{_num(mv(0))}</div></div>
-          <div class="kpi"><div class="label">Total Users</div>
-            <div class="value">{_num(mv(1))}</div></div>
-          <div class="kpi"><div class="label">New Users</div>
-            <div class="value">{_num(mv(2))}</div></div>
-          <div class="kpi"><div class="label">Bounce Rate</div>
-            <div class="value">{float(mv(3))*100:.1f}%</div></div>
-          <div class="kpi"><div class="label">Avg Session</div>
-            <div class="value">{float(mv(4)):.0f}s</div></div>
-        </div>"""
-
-    total_sessions = sum(
-        int(row.metric_values[0].value) for row in sources.rows
-    ) or 1
     rows_html = ""
     for row in sources.rows:
-        src  = row.dimension_values[0].value
-        sess = int(row.metric_values[0].value)
-        pct  = sess / total_sessions * 100
-        bar  = f'<div style="background:#2b7de9;height:6px;border-radius:3px;width:{min(pct,100):.0f}%;margin-top:4px"></div>'
+        src_med = row.dimension_values[0].value
+        parts   = src_med.split(" / ", 1)
+        src     = parts[0]
+        med     = parts[1] if len(parts) > 1 else ""
+        sess    = int(row.metric_values[0].value)
+        new_u   = int(row.metric_values[1].value) if len(row.metric_values) > 1 else ""
         rows_html += f"""
         <tr>
-          <td>{src}</td>
-          <td>{_num(sess)}</td>
-          <td>{pct:.1f}%{bar}</td>
+          <td style="color:#ccc;font-weight:600">{src}</td>
+          <td style="color:#888">{med}</td>
+          <td style="text-align:center">{_num(sess)}</td>
+          <td style="text-align:center">{_num(new_u) if new_u != "" else "—"}</td>
         </tr>"""
 
     return f"""
     <div class="section">
-      <h2>Traffic Sources
-        <span style="font-size:12px;font-weight:normal;color:#666;margin-left:8px;">
-          GA4 · {start} to {end}
-        </span>
-      </h2>
-      {ov_html}
-      <table>
-        <thead><tr><th>Source / Medium</th><th>Sessions</th><th>Share</th></tr></thead>
-        <tbody>{rows_html}</tbody>
-      </table>
-    </div>"""
-
-
-def build_competitor_snapshot(comp_rows):
-    has_live = any(r.get("live") for r in comp_rows)
-
-    if not has_live:
-        return f"""
-    <div class="section">
-      <h2>Competitor Snapshot</h2>
-      <div class="placeholder">
-        <strong>No SERP API key configured.</strong><br>
-        To enable live competitor rankings, set one of these environment variables
-        and re-run the script:<br><br>
-        <code>SERPAPI_KEY=your_key_here</code> — free tier at
-        <a href="https://serpapi.com">serpapi.com</a> (100 searches/month)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&mdash; or &mdash;<br>
-        <code>DATAFORSEO_LOGIN=your@email.com</code> +
-        <code>DATAFORSEO_PASSWORD=your_pass</code> — pay-per-use at
-        <a href="https://dataforseo.com">dataforseo.com</a>
-        (~$0.002 per keyword check)<br><br>
-        Keywords that will be tracked once configured:
-        <ul style="margin:8px 0 0">
-          {''.join(f"<li>{kw}</li>" for kw in COMPETITOR_KEYWORDS)}
-        </ul>
-      </div>
-    </div>"""
-
-    rows_html = ""
-    for r in comp_rows:
-        kw       = r["keyword"]
-        our_rank = r["our_rank"]
-        rank_cls = ""
-        if isinstance(our_rank, int):
-            if our_rank <= 3:
-                rank_cls = "badge-top"
-            elif our_rank <= 10:
-                rank_cls = "badge-1"
-
-        rank_display = (
-            f'<span class="{rank_cls}">{our_rank}</span>'
-            if rank_cls else str(our_rank)
-        )
-
-        top5 = r.get("results", [])
-        top5_html = ", ".join(
-            f"<strong>{d}</strong>" if "rosemedicalpavilion" in d else d
-            for _, d in top5[:5]
-        ) if top5 else "—"
-
-        error_html = (
-            f'<br><small class="err">{r["error"]}</small>'
-            if r.get("error") else ""
-        )
-        rows_html += f"""
-        <tr>
-          <td>{kw}</td>
-          <td style="text-align:center">{rank_display}{error_html}</td>
-          <td style="font-size:11px;color:#555">{top5_html}</td>
-        </tr>"""
-
-    return f"""
-    <div class="section">
-      <h2>Competitor Snapshot</h2>
+      <h2>Traffic Sources</h2>
       <table>
         <thead><tr>
-          <th>Keyword</th>
-          <th style="text-align:center">Our Rank</th>
-          <th>Top Results</th>
+          <th>Source</th><th>Medium</th>
+          <th style="text-align:center">Sessions</th>
+          <th style="text-align:center">New Users</th>
         </tr></thead>
         <tbody>{rows_html}</tbody>
       </table>
     </div>"""
 
 
-def build_html_report(sections_html, report_date):
-    body = "".join(sections_html)
+def build_html_report(sections_html, report_date, start_date, end_date):
+    from datetime import date as _date
+    day_name = _date.today().strftime("%A").upper()
+    start_fmt = start_date.strftime("%-d %b") if hasattr(start_date, "strftime") else str(start_date)
+    end_fmt   = end_date.strftime("%-d %b") if hasattr(end_date, "strftime") else str(end_date)
+    full_date = _date.today().strftime("%A, %B %-d, %Y")
+    body = "".join(s for s in sections_html if s)
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -687,14 +733,15 @@ def build_html_report(sections_html, report_date):
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>SEO Weekly Report — Rose Medical Pavilion</h1>
-      <p>rosemedicalpavilion.com &nbsp;|&nbsp; Generated {report_date}</p>
+      <div class="eyebrow">Rose Medical Pavilion &middot; {day_name}</div>
+      <h1>SEO Performance Report</h1>
+      <p class="sub">{start_fmt} &ndash; {end_fmt} &nbsp;&middot;&nbsp; {full_date}</p>
     </div>
     {body}
     <div class="footer">
-      Automated report generated by seo_report.py &nbsp;&bull;&nbsp;
-      Data sources: Google Search Console, GA4{", SerpAPI" if SERPAPI_KEY else ""}
-      {", DataForSEO" if DATAFORSEO_LOGIN else ""}
+      Automated report &nbsp;&bull;&nbsp; Google Search Console + GA4
+      {" &bull; SerpAPI" if SERPAPI_KEY else ""}
+      {" &bull; DataForSEO" if DATAFORSEO_LOGIN else ""}
     </div>
   </div>
 </body>
@@ -712,7 +759,7 @@ def send_email(html_body, report_date):
         return
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"SEO Report — Rose Medical Pavilion — {report_date}"
+    msg["Subject"] = f"SEO Daily Report — Rose Medical Pavilion — {report_date}"
     msg["From"]    = SMTP_USER
     msg["To"]      = ", ".join(REPORT_TO)
 
@@ -739,49 +786,53 @@ def send_email(html_body, report_date):
 # ---------------------------------------------------------------------------
 
 def main():
-    report_date = date.today().isoformat()
+    today       = date.today()
+    report_date = today.isoformat()
     print(f"[seo_report.py] Starting run for {report_date}")
 
-    sections = []
+    sections   = []
+    start_date = today - timedelta(days=6)
+    end_date   = today
 
-    # --- Section 1 + 2 + 3: GSC traffic summary, top queries, top pages ----
+    # --- GA4: traffic KPIs (top of report) ---------------------------------
+    sources = overview = ga4_start = ga4_end = None
+    try:
+        sources, overview, ga4_start, ga4_end = fetch_ga4()
+        print(f"  GA4: {len(sources.rows)} source/medium rows")
+        sections.append(build_ga4_section(overview, ga4_start, ga4_end))
+    except Exception as e:
+        sections.append(f'<div class="section"><h2>Traffic (GA4 7-Day)</h2><p class="err">GA4 data unavailable: {e}</p></div>')
+
+    # --- GSC: search visibility KPIs + competitive position ----------------
+    q_cur_cache = []
+    p_cur_cache = []
     def gsc_sections():
         (q_cur, q_pri_map, p_cur, p_pri_map,
          cur_totals, pri_totals,
          start_cur, end_cur,
          start_pri, end_pri) = fetch_gsc()
-
         print(f"  GSC: {int(cur_totals['clicks'])} clicks, "
               f"{int(cur_totals['impressions'])} impressions this week")
-
+        q_cur_cache.extend(q_cur)
+        p_cur_cache.extend(p_cur)
         return (
-            build_traffic_summary(cur_totals, pri_totals,
-                                  start_cur, end_cur, start_pri, end_pri)
-            + build_top_queries(q_cur, q_pri_map)
-            + build_top_pages(p_cur, p_pri_map)
+            build_gsc_kpis(cur_totals, pri_totals)
+            + build_competitive_position(fetch_competitor_rankings())
+            + build_seo_opportunities(q_cur)
+            + build_top_pages_ga4(p_cur, sources)
         )
 
-    sections.append(_safe_section("Traffic Summary / GSC", gsc_sections))
+    sections.append(_safe_section("GSC + Competitive", gsc_sections))
 
-    # --- Section 4: GA4 traffic sources ------------------------------------
-    def ga4_section():
-        sources, overview, start, end = fetch_ga4()
-        print(f"  GA4: {len(sources.rows)} source/medium rows")
-        return build_traffic_sources(sources, overview, start, end)
-
-    sections.append(_safe_section("Traffic Sources (GA4)", ga4_section))
-
-    # --- Section 5: Competitor snapshot ------------------------------------
-    def comp_section():
-        rows = fetch_competitor_rankings()
-        live_count = sum(1 for r in rows if r.get("live"))
-        print(f"  Competitors: {live_count}/{len(rows)} keywords with live SERP data")
-        return build_competitor_snapshot(rows)
-
-    sections.append(_safe_section("Competitor Snapshot", comp_section))
+    # --- Traffic sources ---------------------------------------------------
+    if sources is not None:
+        try:
+            sections.append(build_traffic_sources(sources, overview, ga4_start, ga4_end))
+        except Exception:
+            pass
 
     # --- Build & send ------------------------------------------------------
-    html = build_html_report(sections, report_date)
+    html = build_html_report(sections, report_date, start_date, end_date)
     send_email(html, report_date)
     print("[seo_report.py] Done.")
 
