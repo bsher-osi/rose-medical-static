@@ -18,5 +18,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/rose-medical
-            git pull origin master
+            git fetch origin master
+            git reset --hard origin/master
+            sudo systemctl restart rose-contact.service 2>/dev/null || true
             echo "Deployed at $(date)"
