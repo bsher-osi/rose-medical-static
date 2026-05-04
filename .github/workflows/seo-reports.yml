@@ -27,11 +27,11 @@ jobs:
           mkdir -p seo/credentials
           echo "$GA4_SERVICE_ACCOUNT_JSON" > seo/credentials/ga4-service-account.json
 
-      - name: Write GSC credentials
+      - name: Write GSC OAuth token
         env:
-          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          GSC_TOKEN_JSON: ${{ secrets.GSC_TOKEN_JSON }}
         run: |
-          echo "$GSC_SERVICE_ACCOUNT_JSON" > seo/credentials/gsc-service-account.json
+          echo "$GSC_TOKEN_JSON" > seo/credentials/gsc_token.json
 
       - name: GA4 digest
         env:
@@ -67,21 +67,13 @@ jobs:
           git diff --staged --quiet || git commit -m "seo: weekly reports $(date -I)"
           git push
 
-      - name: Email reports
+      - name: Send dark HTML dashboard report
         if: always()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.GMAIL_USERNAME }}
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "Rose Medical SEO Report — ${{ github.run_id }}"
-          to: benjaminsher@gmail.com,tz@rosemedicalpavilion.com
-          from: benjamin@rosemedicalpavilion.com
-          body: |
-            Weekly SEO report for Rose Medical Pavilion is ready.
-
-            Reports are committed to the repo at seo/reports/.
-
-            — GitHub Actions
-          attachments: seo/reports/*.md
+        env:
+          SMTP_USER: ${{ secrets.GMAIL_USERNAME }}
+          SMTP_PASS: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: python seo/agents/seo_report.py
