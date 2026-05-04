@@ -145,12 +145,15 @@ def _gsc_service():
     refresh_token = GSC_REFRESH_TOKEN
 
     if not (client_id and client_secret and refresh_token):
-        if os.path.exists(GSC_TOKEN_PATH):
-            with open(GSC_TOKEN_PATH) as f:
-                tok = json.load(f)
-            client_id     = tok.get("client_id", "")
-            client_secret = tok.get("client_secret", "")
-            refresh_token = tok.get("refresh_token", "")
+        if os.path.exists(GSC_TOKEN_PATH) and os.path.getsize(GSC_TOKEN_PATH) > 10:
+            try:
+                with open(GSC_TOKEN_PATH) as f:
+                    tok = json.load(f)
+                client_id     = tok.get("client_id", "")
+                client_secret = tok.get("client_secret", "")
+                refresh_token = tok.get("refresh_token", "")
+            except (json.JSONDecodeError, OSError):
+                pass
 
     if not (client_id and client_secret and refresh_token):
         raise RuntimeError(
